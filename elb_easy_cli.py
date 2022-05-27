@@ -5,7 +5,9 @@ Execute library commands from cli
 import argparse
 from typing import Dict
 
-from elb_easy.lib.get_elb import getElbs
+from elb_easy.lib.getElbs import getElbs
+from elb_easy.lib.alb.getAlbs import getAlbs
+from elb_easy.lib.nlb.getNlbs import getNlbs
 
 
 
@@ -32,10 +34,19 @@ def _execute_cli() -> None:
 
 def alb_cli() -> Dict:
     get_elb = getElbs
-    
-    output = get_elb()
+    get_alb = getAlbs
+    output = get_alb(get_elb())
 
     print(output)
+
+def nlb_cli() -> Dict:
+    get_elb = getElbs
+    get_nlb = getNlbs
+    output = get_nlb(get_elb())
+
+    print(output)
+
+
 
 def main():
     _execute_cli()
