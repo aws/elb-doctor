@@ -2,7 +2,7 @@
 
 from typing import Dict
 
-def getAlbs(elb_response) -> Dict:
+def parseAlbs(elb_response) -> Dict:
     """Take ELB response and filter out only ALBs"""
     
     all_albs = {}
