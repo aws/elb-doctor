@@ -1,59 +1,84 @@
 from __future__ import print_function, unicode_literals
+from elb_easy.lib.getElbs import getElbs
+from elb_easy.lib.parseElbs import parseElbs
+from elb_easy.lib.describeHealth import getTargetHealth
+from elb_easy.lib.tgs.getTg import getTG
 from PyInquirer import prompt, print_json
-import boto3
-import json
+import pprint as pp 
 
 questions = [
     {
-        'type': 'input',
-        'name': 'tgArn',
-        'message': 'What\'s the ARN of your target group?',
-    },
-    {
-        'type': 'confirm',
-        'name': 'onGoing',
-        'message': 'Is the event onging?',
-        'default': False
-    },
-    {
         'type': 'list',
-        'name': 'httpError',
-        'message': 'What is the HTTP status code?',
+        'name': 'ElbType',
+        'message': 'What is the type of ELB?',
         'choices': [
             {
                 'key': 'p',
-                'name': 'HTTP 502',
-                'value': '502'
+                'name': 'CLB',
+                'value': 'all-elb'
             },
             {
                 'key': 'a',
-                'name': 'HTTP 503',
-                'value': '503'
+                'name': 'ALB',
+                'value': 'get-alb'
             },
             {
                 'key': 'w',
-                'name': 'HTTP 504',
-                'value': '504'
+                'name': 'NLB',
+                'value': 'get-nlb'
             }
         ]
+    }
+
+    #needs to check region as well?????
+]
+
+
+answers = prompt(questions)
+if (answers["ElbType"]=="get-alb"): 
+    output = parseElbs(getElbs())        #getElbs currently return all ELBs 
+    # print(type(output))
+    choices = [] 
+    for key,value in output.items(): 
+        # print(key+"xxxx"+value)
+        choices.append({
+            'name': key,
+            'value': value 
+        })
+
+questions = [
+    {
+        'type': 'list',
+        'name': 'ALB',
+        'message': 'Which ALB are you having issue with?',
+        'choices': choices
     }
 ]
 
 answers = prompt(questions)
 
-# print(answers)  
-s3 = boto3.resource('s3')
-client = boto3.client('elbv2')
+# print (answers)
+outputs = (getTG(answers["ALB"]))
 
-response = client.describe_target_health(
-    TargetGroupArn='arn:aws:elasticloadbalancing:ap-southeast-2:318360445202:targetgroup/onos-alb-0-instance-tg-0/225950b0e96972dd',
-    Targets=[
-        {
-            'Id': 'i-02b8769a50bc64b1a',
-            'Port': 8801
-        },
-    ]
-)
+choices.clear()
+# print(type(outputs["TargetGroups"]))
+for i in outputs['TargetGroups']:
+    choices.append({
+        'name': i["TargetGroupName"],
+        'value': i["TargetGroupArn"]
+    })
 
-print(json.dumps(response["TargetHealthDescriptions"],indent=4))
+# print(choices)
 
+questions = [
+    {
+        'type': 'list',
+        'name': 'TargetGroup',
+        'message': 'Which TG/backend are you having issue with?',
+        'choices': choices
+    }
+]
+
+answers = prompt(questions)
+outputs = getTargetHealth(answers["TargetGroup"])
+pp.pprint(outputs["TargetHealthDescriptions"])
