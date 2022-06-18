@@ -3,7 +3,7 @@ from elb_easy.lib.getElbs import getElbs
 from elb_easy.lib.parseElbs import parseElbs
 from elb_easy.lib.describeHealth import getTargetHealth
 from elb_easy.lib.tgs.getTg import getTG
-from PyInquirer import prompt, print_json
+from PyInquirer import prompt
 import pprint as pp 
 
 questions = [

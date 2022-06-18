@@ -4,12 +4,15 @@ from typing import Dict
 
 def parseNlbs(elb_response) -> Dict:
     """Take ELB response and filter out only NLBs"""
-    
+
     all_nlbs = {}
-    
-    for i in elb_response['LoadBalancers']:
-        for key, value in i.items():
+
+    try:
+        for i in elb_response['LoadBalancers']:
             if 'network' in i['Type']:
                 all_nlbs[i['LoadBalancerName']] = i['LoadBalancerArn']
-    
+    except KeyError as error_no_nlbs:
+        # reraise the error
+        raise error_no_nlbs
+
     return all_nlbs
