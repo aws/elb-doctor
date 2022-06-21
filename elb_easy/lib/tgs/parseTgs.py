@@ -4,12 +4,15 @@ from typing import Dict
 
 def parseTgs(tg_response) -> Dict:
     """Take ELB response and filter out only NLBs"""
-    
+
     all_tg = {}
     # TODO: Check if TG association exists, return Null name / no associated tg
     # for arn?
-    for i in tg_response['TargetGroups']:
-        for key, value in i.items():
+    try:
+        for i in tg_response['TargetGroups']:
             all_tg[i['TargetGroupName']] = i['TargetGroupArn']
-    
+    except KeyError as error_no_tgs:
+        # reraise the error
+        raise error_no_tgs
+
     return all_tg

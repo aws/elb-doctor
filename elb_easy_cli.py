@@ -27,6 +27,12 @@ def _execute_cli() -> None:
     elb_cli_parser = subparsers.add_parser('all-elb',
                                             help='Run commands on ALL ELBs')
     elb_cli_parser.set_defaults(func=elb_cli)
+    # all-tg set true, no argument required by default
+    elb_cli_parser.add_argument('--all-tg',
+                                help='retrieve ALL ELB target groups',
+                                nargs="?",
+                                const=True,
+                                required=False)
 
     # alb subparser
     alb_cli_parser = subparsers.add_parser('get-alb',
@@ -62,29 +68,43 @@ def _execute_cli() -> None:
     nlb_cli_parser.add_argument('--all-tg',
                                 help='retrieve ALL NLB target groups',
                                 required=False)
-    
-    # cli parameters
-    arguments = parser.parse_args()
-
-    print(arguments)
 
     # find function by name and call
-    if "elb_cli" in arguments.func.__name__:
-        elb_cli()
-    elif "alb_cli" in arguments.func.__name__:
-        alb_cli(arguments)
-    elif "nlb_cli" in arguments.func.__name__:
-        nlb_cli()
+    try:
+        # cli parameters
+        arguments = parser.parse_args()
+        # catch zero parameters and print help
+        if "elb_cli" in arguments.func.__name__:
+            elb_cli(arguments)
+        elif "alb_cli" in arguments.func.__name__:
+            alb_cli(arguments)
+        elif "nlb_cli" in arguments.func.__name__:
+            nlb_cli()
+    except AttributeError as no_arguments:
+        arguments = parser.parse_args(['--help'])
+        print(arguments.print_help())
 
 
-def elb_cli() -> Dict:
+
+def elb_cli(arguments: Namespace) -> Dict:
     get_elb = getElbs
     parse_elbs = parseElbs
-    output = parse_elbs(get_elb())
+    all_elbs = parse_elbs(get_elb())
+    get_all_tgs = getAllTGs
 
-    for key, value in output.items():
-        # align arn/value 115 pixels right
-        print(f"{key} {value:>115}")
+    # all elbs and all tgs
+    if arguments.all_tg:
+        response = get_all_tgs(all_elbs)
+        for key, value in response.items():
+            print(f"\nELB Name: {key}")
+            for x, y in value.items():
+                print(f"Target Group Name: {x}\nTarget Group Data:\n{y}")
+    # all elbs
+    else:
+        response = all_elbs
+        for key, value in response.items():
+            print(key, value)
+
 
 def alb_cli(arguments: Namespace) -> Dict:
     """ALB commands """
