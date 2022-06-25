@@ -7,4 +7,6 @@ def getTargetHealth(tgArn) -> Dict:
     client = boto3.client('elbv2')
     response = client.describe_target_health(TargetGroupArn=tgArn)
 
+
     return response
+

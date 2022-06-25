@@ -3,8 +3,10 @@ from elb_easy.lib.getElbs import getElbs
 from elb_easy.lib.parseElbs import parseElbs
 from elb_easy.lib.describeHealth import getTargetHealth
 from elb_easy.lib.tgs.getTg import getTG
+from elb_easy.lib.utilities import healthbar,bcolors
 from PyInquirer import prompt
 import pprint as pp 
+import time    
 
 questions = [
     {
@@ -81,4 +83,32 @@ questions = [
 
 answers = prompt(questions)
 outputs = getTargetHealth(answers["TargetGroup"])
-pp.pprint(outputs["TargetHealthDescriptions"])
+
+#option 1: count the outputs 
+#option 2: get it from CW metrics
+
+
+UnHealthyHostCount=0
+HealthyHostCount=0
+for i in outputs["TargetHealthDescriptions"]:
+    if i["TargetHealth"]["State"] == "unhealthy":
+        UnHealthyHostCount+=1 
+        
+    elif i["TargetHealth"]["State"] == "healthy":
+        HealthyHostCount+=1
+print("\n")
+for i in healthbar(range(len(outputs["TargetHealthDescriptions"])),HealthyHostCount, "  Healthy Targets: ", 100):
+    time.sleep(0.03) # any code you need
+
+print(bcolors.FAIL)
+for i in healthbar(range(len(outputs["TargetHealthDescriptions"])),UnHealthyHostCount, "Unhealthy Targets: ", 100):
+    time.sleep(0.03) # any code you need
+print(bcolors.ENDC)
+
+row_format ="{:<30}{:<30}{:<40}{:<40}"
+print(row_format.format('Target:Port','HealthState','Reason','Description'))
+for i in outputs["TargetHealthDescriptions"]:
+    if i["TargetHealth"]["State"] == "unhealthy":
+        # pp.pprint(i)
+        # print(i["Target"],"  ",bcolors.FAIL + i["TargetHealth"]["State"]+ bcolors.ENDC,"   ",i["TargetHealth"]["Reason"])
+        print(row_format.format(i["Target"]["Id"]+":"+str(i["Target"]["Port"]),bcolors.FAIL+i["TargetHealth"]["State"]+bcolors.ENDC,i["TargetHealth"]["Reason"],i["TargetHealth"]["Description"]))
