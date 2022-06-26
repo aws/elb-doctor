@@ -14,7 +14,6 @@ from elb_easy.lib.tgs.getAllTgs import getAllTGs
 from elb_easy.lib.tgs.parseTgs import parseTgs
 
 
-
 def _execute_cli() -> None:
     """
     basic cli for testing

@@ -1,0 +1,18 @@
+[project]
+name = "elb-doctor"
+version = "0.0.1"
+description = "A tool for troubleshooting AWS ELB problems"
+readme = "README.md"
+authors = [{ name = "David Dai", email = "idd@amazon.com" },{ name = "Adam Fitzgerald", email = "atz@amazon.com" }]
+keywords = ["aws", "elb", "alb", "health", "troubleshoot"]
+dependencies = [
+    "boto3 >= 1.21.44",
+    "botocore >= 1.24.44",
+    "PyInquirer >= 1.0.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/wdai9162/elb-doctor"
+
+[project.scripts]
+elbdoc = "elbdoc.__main__:main"
