@@ -31,4 +31,13 @@ def healthbar(it, stopper, prefix="",size=60, out=sys.stdout): # Python3.3+
     print(flush=True, file=out)
 
 
+def link(uri, label=None):
+    if label is None: 
+        label = uri
+    parameters = ''
+
+    # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST 
+    escape_mask = '\033]8;{};{}\033\\{}\033]8;;\033\\'
+
+    return escape_mask.format(parameters, uri, label)
 

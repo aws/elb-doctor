@@ -1,3 +1,6 @@
+#Do we need these many dependencies? Pining them to a fixed version causes some conflicts and warning during pip installation. 
+#Preferablly move the necessary ones into pyproject.toml
+
 astroid==2.11.5
 boto3==1.23.8
 botocore==1.26.8

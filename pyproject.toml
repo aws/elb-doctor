@@ -1,6 +1,6 @@
 [project]
-name = "elb-doctor"
-version = "0.0.1"
+name = "elbdoctor"
+version = "0.0.2"
 description = "A tool for troubleshooting AWS ELB problems"
 readme = "README.md"
 authors = [{ name = "David Dai", email = "idd@amazon.com" },{ name = "Adam Fitzgerald", email = "atz@amazon.com" }]

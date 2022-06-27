@@ -1,50 +1,61 @@
 from __future__ import print_function, unicode_literals
-from elb_easy.lib.getElbs import getElbs
+from elb_easy.lib.getElbs import getElbs, getElbsV2
 from elb_easy.lib.parseElbs import parseElbs
 from elb_easy.lib.describeHealth import getTargetHealth
 from elb_easy.lib.tgs.getTg import getTG
 from elb_easy.lib.utilities import healthbar,bcolors
 from PyInquirer import prompt
+from elb_easy.lib.regions import standard_regions,other_regions
+from elb_easy.lib.elbtypes import elb_types
 import time   
 
 def main():
+
+    #Question 1: Region or Auto detection feature 
+    #Question 2: ELB Type 
+    #Question 3: ELB ARN  
+    #(optional): TG ARN 
+
     questions = [
         {
+        'type': 'list',
+        'name': 'standard_regions',
+        'message': 'What is the AWS region of your ELB?',
+        'choices': standard_regions,
+        'default': 'us-east-1'
+        },
+        {
+        'type': 'list',
+        'name': 'other_regions',
+        'message': 'Is your ELB in any of the following Opt-in/GovCloud/China region?',
+        'choices': other_regions,
+        'when': lambda answers: answers['standard_regions'] == False
+        },
+        {
             'type': 'list',
-            'name': 'ElbType',
-            'message': 'What is the type of ELB?',
-            'choices': [
-                {
-                    'key': 'p',
-                    'name': 'CLB',
-                    'value': 'all-elb'
-                },
-                {
-                    'key': 'a',
-                    'name': 'ALB',
-                    'value': 'get-alb'
-                },
-                {
-                    'key': 'w',
-                    'name': 'NLB',
-                    'value': 'get-nlb'
-                }
-            ]
+            'name': 'elb_type',
+            'message': 'What is the type of your ELB?',
+            'choices': elb_types
         }
-
-        #needs to check region as well?
     ]
 
     answers = prompt(questions)
-    if (answers["ElbType"]=="get-alb"): 
-        output = parseElbs(getElbs())        #getElbs currently return all ELBs 
-        # print(type(output))
+
+    if (answers["elb_type"]=="classic"): 
+        output = parseElbs(getElbs())
         choices = [] 
-        for key,value in output.items(): 
-            # print(key+"xxxx"+value)
+        for name,arn in output.items(): 
             choices.append({
-                'name': key,
-                'value': value 
+                'name': name,
+                'value': arn 
+            })
+    else:                                #it's currently returning all ALB, NLB and GWLB
+        output = parseElbs(getElbsV2())
+        choices = [] 
+        for name,arn in output.items(): 
+            choices.append({
+                'name': name,
+                'value': arn 
             })
 
     questions = [
