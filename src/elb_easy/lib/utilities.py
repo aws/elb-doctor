@@ -18,7 +18,7 @@ class bcolors:
 def healthbar(it, stopper, prefix="",size=60, out=sys.stdout): # Python3.3+
     count = len(it)
     def show(j):
-        x = int(size*j/count)
+        x = int(size*j/count)    #needs to catch target=0 => division by Zero error
         print("{}[{}{}] {}/{}".format(prefix, u"█"*x, "."*(size-x), j, count), 
                 end='\r', file=out, flush=True)
     show(0)

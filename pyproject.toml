@@ -1,18 +1,29 @@
+[build-system]
+requires = ["setuptools>=62.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "elbdoctor"
-version = "0.0.2"
+name = "elb-doctor"
+version = "0.0.4"
 description = "A tool for troubleshooting AWS ELB problems"
 readme = "README.md"
 authors = [{ name = "David Dai", email = "idd@amazon.com" },{ name = "Adam Fitzgerald", email = "atz@amazon.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
 keywords = ["aws", "elb", "alb", "health", "troubleshoot"]
 dependencies = [
     "boto3 >= 1.21.44",
     "botocore >= 1.24.44",
     "PyInquirer >= 1.0.3",
 ]
+requires-python = ">=3.7.0"
 
 [project.urls]
 Homepage = "https://github.com/wdai9162/elb-doctor"
 
 [project.scripts]
-elbdoc = "elbdoc.__main__:main"
+elbdoc = "elb_doctor.__main__:main"

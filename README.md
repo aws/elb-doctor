@@ -1,5 +1,5 @@
 # elb-doctor
-a wizard that make elb troubleshooting easier than ever
+A tool for troubleshooting AWS ELB problems
 
 ## Install using Pip
 1. Ensure you can run Python from the command line. You should get some output like Python 3.X.X. 
@@ -30,7 +30,7 @@ a wizard that make elb troubleshooting easier than ever
   ```
 4. Run the `__main__.py` manually to start the wizard: 
   ```
-  python3 src/elbdoc/__main__.py
+  python3 src/elb_doctor/__main__.py
   ```
 
 ## Known Issues
