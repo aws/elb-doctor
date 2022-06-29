@@ -29,37 +29,36 @@ https://github.com/magmax/python-inquirer/issues/122
 
 ## Roadmap
 --> **Major Function**
--> Minor Function 
+- Minor Function 
 
 --> **A console style wizard with selectable options to choose ELBs/TGs** ✅ 
-    -> allow region to be chosen so that `elbdoc` can be executed in any Cloud Shell
-    -> when there are too many ELBs/TGs, implement pagination and allow manual search/input
-    -> enable support on NLB and GWLB
-    (it's currently returned under ALB option, needs to apply filter at API level or locally)
+- allow region to be chosen so that `elbdoc` can be executed in any Cloud Shell
+- when there are too many ELBs/TGs, implement pagination and allow manual search/input
+- enable support on NLB and GWLB(it's currently returned under ALB option, needs to apply filter at API level or locally)
 
 --> **Display ELB target health status** ✅
-    -> Display by each individual Target Group ✅
-    -> Enriched failure reasons, i.e. 
-      "Health checks failed with these codes: [400]" 
-      + because you configured to accept Success codes: [200-399] 
+- Display by each individual Target Group ✅
+- Enriched failure reasons, i.e. 
+  "Health checks failed with these codes: [400]" + because you configured to accept Success codes: [200-399] 
 
-    -> Display by aggregated Target Groups
-      ? Which TG/backend are you having issue with?
-        target-group-1
-        target-group-2
-        target-group-3
-        all target groups
-
-    -> Display by Availability Zones visually because Zone column is removed 
+- Display by aggregated Target Groups
+  ```
+  ? Which TG/backend are you having issue with?
+    target-group-1
+    target-group-2
+    target-group-3
+  > all target groups  
+  ```
+- Display by Availability Zones visually because Zone column is removed 
     
 --> **Provide basic suggestions, i.e. reconfigure Success Codes**
-    -> Perform basic checks on SG and NACL 
-    -> Perform basic checks on target CPUUtilization 
-    -> Perform basic checks on TCP handshake and TLS negotiation 
+- Perform basic checks on SG and NACL 
+- Perform basic checks on target CPUUtilization 
+- Perform basic checks on TCP handshake and TLS negotiation 
 
 --> **Features to streamline and improve user and AWS support t-shoot efficiency**
-    -> Establish logging infrastructure to log Health status and failure reasons, CW+Lambda
-    -> Establish CW dashboard with metics and recent access log lines
-    -> When options are exhausted, collect info and automatically open support case for cx 
+- Establish logging infrastructure to log Health status and failure reasons, CW+Lambda
+- Establish CW dashboard with metics and recent access log lines
+- When options are exhausted, collect info and automatically open support case for cx 
 
 --> Improve package structure and aggregate modules into classes
