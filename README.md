@@ -34,12 +34,23 @@ https://github.com/magmax/python-inquirer/issues/122
 --> **A console style wizard with selectable options to choose ELBs/TGs** ✅ 
 - allow region to be chosen so that `elbdoc` can be executed in any Cloud Shell
 - when there are too many ELBs/TGs, implement pagination and allow manual search/input
-- enable support on NLB and GWLB(it's currently returned under ALB option, needs to apply filter at API level or locally)
+  ```
+  ? Which ALB are you having issue with?  (Use arrow keys)
+      onos-pub-vpc0-syd-nlb-0
+      onos-pub-vpc0-syd-alb-0
+      secapp-vpc1-syd-gwlb-0
+      ...
+      ...
+      (next 100 ELBs)
+      ---------------
+    > Search/Input ELB Arn: 
+  ```
+- enable support for NLB and GWLB(it's currently returned under ALB option, needs to apply filter at API level or locally)
 
 --> **Display ELB target health status** ✅
 - Display by each individual Target Group ✅
 - Enriched failure reasons, i.e. 
-  "Health checks failed with these codes: [400]" + because you configured to accept Success codes: [200-399] 
+  "Health checks failed with these codes: [400]" + because you configured to accept Success codes: [200-399]
 
 - Display by aggregated Target Groups
   ```
