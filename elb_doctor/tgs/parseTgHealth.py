@@ -1,6 +1,4 @@
-from elb_easy.lib.describeHealth import getTargetHealth
-
-def processHealth(answers,outputs):
+def parseTgHealth(answers, outputs):
     
    
     #option 1: count the outputs 

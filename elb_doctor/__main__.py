@@ -1,13 +1,13 @@
 from __future__ import print_function, unicode_literals
-from elb_easy.lib.getElbs import getElbs, getElbsV2
-from elb_easy.lib.parseElbs import parseElbs
-from elb_easy.lib.describeHealth import getTargetHealth
-from elb_easy.lib.tgs.tgHandler import tgHandler
-from elb_easy.lib.healthHandler import processHealth
-from elb_easy.lib.utilities import healthbar,bcolors
+from elb_doctor.elb.getElbs import getElbs, getElbsV2
+from elb_doctor.elb.parseElbs import parseElbs
+from elb_doctor.tgs.getTargetHealth import getTargetHealth
+from elb_doctor.tgs.tgHandler import tgHandler
+from elb_doctor.tgs.parseTgHealth import parseTgHealth
+from elb_doctor.helpers.utilities import healthbar,bcolors
 from PyInquirer import prompt
-from elb_easy.lib.regions import standard_regions,other_regions
-from elb_easy.lib.elbtypes import elb_types
+from elb_doctor.helpers.regions import standard_regions,other_regions
+from elb_doctor.helpers.elbtypes import elb_types
 import time
 
 def main():
@@ -64,7 +64,7 @@ def main():
     answers = prompt(questions)
     outputs = getTargetHealth(answers)
     # print(outputs)
-    HealthyHostCount,UnHealthyHostCount = processHealth(answers,outputs)
+    HealthyHostCount,UnHealthyHostCount = parseTgHealth(answers,outputs)
 
     print("\n")
 

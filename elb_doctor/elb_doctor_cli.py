@@ -6,12 +6,12 @@ import argparse
 from argparse import Namespace
 from typing import Dict
 
-from elb_easy.lib.getElbs import getElbs
-from elb_easy.lib.parseElbs import parseElbs
-from elb_easy.lib.alb.parseAlbs import parseAlbs
-from elb_easy.lib.nlb.parseNlbs import parseNlbs
-from elb_easy.lib.tgs.getAllTgs import getAllTGs
-from elb_easy.lib.tgs.parseTgs import parseTgs
+from elb.getElbs import getElbs
+from elb.parseElbs import parseElbs
+from elb.parseAlbs import parseAlbs
+from elb.parseNlbs import parseNlbs
+from tgs.getAllTgs import getAllTGs
+from tgs.parseTgs import parseTgs
 
 
 def _execute_cli() -> None:
@@ -101,6 +101,7 @@ def elb_cli(arguments: Namespace) -> Dict:
     # all elbs
     else:
         response = all_elbs
+        print(response)
         for key, value in response.items():
             print(key, value)
 
