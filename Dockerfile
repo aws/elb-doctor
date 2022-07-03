@@ -8,7 +8,7 @@ RUN python -m pip install --upgrade pip
 # install packages
 COPY requirements.txt /temp/work_dir
 RUN pip install -r requirements.txt
-COPY elb_easy elb_easy
+COPY elb_doctor elb_doctor
 COPY tests tests
 
 # run unittests 

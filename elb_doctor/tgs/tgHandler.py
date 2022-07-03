@@ -1,5 +1,5 @@
 
-from elb_easy.lib.tgs.getTg import getTG
+from elb_doctor.tgs.getTg import getTG
 
 def tgHandler(answers) -> list:
 
