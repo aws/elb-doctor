@@ -1,21 +1,27 @@
+# from __future__ import print_function, unicode_literals
+# from elb_doctor.elb.getElbs import getElbs, getElbsV2
+# from elb_doctor.elb.parseElbs import parseElbs
+# from elb_doctor.tgs.getTargetHealth import getTargetHealth
+# from elb_doctor.tgs.tgHandler import tgHandler
+# from elb_doctor.tgs.parseTgHealth import parseTgHealth
+# from elb_doctor.helpers.utilities import output_renderer
+# from PyInquirer import prompt
+# from elb_doctor.helpers.regions import standard_regions,other_regions
+# from elb_doctor.helpers.elbtypes import elb_types
+
 from __future__ import print_function, unicode_literals
-from elb_doctor.elb.getElbs import getElbs, getElbsV2
-from elb_doctor.elb.parseElbs import parseElbs
-from elb_doctor.tgs.getTargetHealth import getTargetHealth
-from elb_doctor.tgs.tgHandler import tgHandler
-from elb_doctor.tgs.parseTgHealth import parseTgHealth
-from elb_doctor.helpers.utilities import healthbar,bcolors
+from elb.getElbs import getElbs, getElbsV2
+from elb.parseElbs import parseElbs
+from tgs.getTargetHealth import getTargetHealth
+from tgs.tgHandler import tgHandler
+from tgs.parseTgHealth import parseTgHealth
+from helpers.utilities import output_renderer
 from PyInquirer import prompt
-from elb_doctor.helpers.regions import standard_regions,other_regions
-from elb_doctor.helpers.elbtypes import elb_types
-import time
+from helpers.regions import standard_regions,other_regions
+from helpers.elbtypes import elb_types
+
 
 def main():
-
-    #Question 1: Region OR Auto detection feature 
-    #Question 2: ELB Type 
-    #Question 3: ELB ARN/name
-    #(optional): TG ARN 
 
     questions = [
         {
@@ -56,52 +62,23 @@ def main():
             'type': 'list',
             'name': 'tg',
             'message': 'Which TG/backend are you having issue with?',
-            'choices': tgHandler,                                    #this is always invoked despite if the question is asked, causing problem when CLB is selected
+            'choices': tgHandler,                                         #this is always invoked despite if the question is asked, causing problem when CLB is selected
             'when': lambda answers: answers['elb_type'] != 'classic'
         }
     ]
 
     answers = prompt(questions)
+    
     outputs = getTargetHealth(answers)
-    # print(outputs)
-    HealthyHostCount,UnHealthyHostCount = parseTgHealth(answers,outputs)
 
+    HealthyHostCount,UnHealthyHostCount = parseTgHealth(answers,outputs)  #consider to fetch from CW metrics, easier for AZ specific data
     print("\n")
 
+    renderer = output_renderer()
     if answers['elb_type'] == 'classic':
-        for i in healthbar(range(len(outputs["InstanceStates"])),HealthyHostCount, "  Healthy Targets: ", 100):
-            time.sleep(0.03) # any code you need
-
-        print(bcolors.FAIL)
-        for i in healthbar(range(len(outputs["InstanceStates"])),UnHealthyHostCount, "Unhealthy Targets: ", 100):
-            time.sleep(0.03) # any code you need
-        print(bcolors.ENDC)
-
-        row_format ="{:<30}{:<30}{:<40}{:<40}"
-        print(row_format.format('Target:Port','HealthState','Reason','Description'))
-        for i in outputs["InstanceStates"]:
-            if i["State"] == "OutOfService":
-                print(row_format.format(i["InstanceId"],bcolors.FAIL+i["State"]+bcolors.ENDC,i["ReasonCode"],i["Description"]))
-            else: 
-                print(row_format.format(i["InstanceId"],bcolors.OKGREEN+i["State"]+bcolors.ENDC,i["ReasonCode"],i["Description"]))
-
+        renderer.output_v1(outputs,HealthyHostCount,UnHealthyHostCount)
     elif answers['elb_type'] != 'classic':
-        
-        for i in healthbar(range(len(outputs["TargetHealthDescriptions"])),HealthyHostCount, "  Healthy Targets: ", 100):
-            time.sleep(0.03) # any code you need
-
-        print(bcolors.FAIL)
-        for i in healthbar(range(len(outputs["TargetHealthDescriptions"])),UnHealthyHostCount, "Unhealthy Targets: ", 100):
-            time.sleep(0.03) # any code you need
-        print(bcolors.ENDC)
-
-        row_format ="{:<30}{:<30}{:<40}{:<40}"
-        print(row_format.format('Target:Port','HealthState','Reason','Description'))
-        for i in outputs["TargetHealthDescriptions"]:
-            if i["TargetHealth"]["State"] == "unhealthy":
-                print(row_format.format(i["Target"]["Id"]+":"+str(i["Target"]["Port"]),bcolors.FAIL+i["TargetHealth"]["State"]+bcolors.ENDC,i["TargetHealth"]["Reason"],i["TargetHealth"]["Description"]))
-            else: 
-                print(row_format.format(i["Target"]["Id"]+":"+str(i["Target"]["Port"]),bcolors.OKGREEN+i["TargetHealth"]["State"]+bcolors.ENDC,"",""))
+        renderer.output_v2(answers,outputs,HealthyHostCount,UnHealthyHostCount)
 
 if __name__ == "__main__":
     main()

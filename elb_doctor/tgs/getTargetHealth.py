@@ -10,7 +10,7 @@ def getTargetHealth(answers) -> Dict:
 
     elif answers['elb_type'] != 'classic':
         client = boto3.client('elbv2')
-        response = client.describe_target_health(TargetGroupArn=answers['tg'])
+        response = client.describe_target_health(TargetGroupArn=answers['tg']['tg_arn'])
 
     return response
 
