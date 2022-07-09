@@ -94,6 +94,8 @@ class output_renderer:
 
     def output_v2(self,answers,outputs,HealthyHostCount,UnHealthyHostCount):
 
+        print(answers)
+        print(outputs)
         #calculate column width 
         #build bar 
         #build table header 

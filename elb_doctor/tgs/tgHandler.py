@@ -1,5 +1,8 @@
 
+from secrets import choice
 from tgs.getTg import getTG
+from PyInquirer import Separator
+
 def tgHandler(answers) -> list:
 
     if(answers['elb_type'] == 'classic'): return    #prevent invocation if CLB is selected
@@ -25,6 +28,16 @@ def tgHandler(answers) -> list:
                     'hc_timeout': i['HealthCheckTimeoutSeconds']
                 }
             })
+    
+    choices.append(Separator())
+    choices.append({
+        'name': 'all target groups',
+        'value': {
+            'tg_arn': 'all_tg',
+            'tgs': choices
+        }
+    })
+
     return choices
 
 
