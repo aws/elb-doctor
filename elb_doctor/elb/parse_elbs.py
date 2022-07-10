@@ -49,5 +49,3 @@ class ParseElbs:
             raise error_no_clbs
 
         return all_clbs
-
-
