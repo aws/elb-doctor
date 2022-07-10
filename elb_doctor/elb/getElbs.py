@@ -3,7 +3,7 @@ from typing import Dict
 import boto3
 
 
-class GetELbs:
+class GetElbs:
     """ELB getter class"""
 
     def get_elb(self) -> Dict:

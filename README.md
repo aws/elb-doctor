@@ -73,3 +73,20 @@ https://github.com/magmax/python-inquirer/issues/122
 - When options are exhausted, collect info and automatically open support case for cx 
 
 --> Improve package structure and aggregate modules into classes
+
+## Developer PEP8
+
+Function and Variable Names:
+https://peps.python.org/pep-0008/#function-and-variable-names
+
+(lowercase separated by underscore)
+
+Class Names:
+https://peps.python.org/pep-0008/#class-names
+
+(CapWords convention)
+
+Method Names and Instance Variables
+https://peps.python.org/pep-0008/#method-names-and-instance-variables
+
+(function naming rules)
