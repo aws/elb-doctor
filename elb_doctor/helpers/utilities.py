@@ -11,12 +11,12 @@ class output_renderer:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
 
-    # def __init__(self,answers,outputs,HealthyHostCount,UnHealthyHostCount):
+    # def __init__(self,answers,targets_health,healthy_host_count,unhealthy_host_count):
         
     #     self.answers=answers
-    #     self.outputs=outputs 
-    #     self.HealthyHostCount=HealthyHostCount
-    #     self.UnHealthyHostCount=UnHealthyHostCount
+    #     self.targets_health=targets_health 
+    #     self.healthy_host_count=healthy_host_count
+    #     self.unhealthy_host_count=unhealthy_host_count
 
     def color_ok_blue(self,string):
         return self.OKBLUE+string+self.ENDC
@@ -73,51 +73,60 @@ class output_renderer:
 
     #     return escape_mask.format(parameters, uri, label)
 
-    def output_v1(self,outputs,HealthyHostCount,UnHealthyHostCount):
+    def output_v1(self,targets_health,healthy_host_count,unhealthy_host_count):
 
-        for i in self.healthbar(range(len(outputs["InstanceStates"])),HealthyHostCount, "  Healthy Targets: ", 100):
+        for i in self.healthbar(range(len(targets_health["InstanceStates"])),healthy_host_count, "  Healthy Targets: ", 100):
             time.sleep(0.03)
 
         print(self.FAIL)
-        for i in self.healthbar(range(len(outputs["InstanceStates"])),UnHealthyHostCount, "Unhealthy Targets: ", 100):
+        for i in self.healthbar(range(len(targets_health["InstanceStates"])),unhealthy_host_count, "Unhealthy Targets: ", 100):
             time.sleep(0.03)
         print(self.ENDC)
 
         row_format ="{:<30}{:<35}{:<20}{:<40}"
         print(row_format.format('Target:Port','HealthState','Reason','Description'))
         print(row_format.format("------------------------------","---------------------------------------------","--------------------","--------------------"))
-        for i in outputs["InstanceStates"]:
+        for i in targets_health["InstanceStates"]:
             if i["State"] == "OutOfService":
                 print(row_format.format(i["InstanceId"],self.color_fail_red(i["State"]),i["ReasonCode"],i["Description"]))
             else: 
                 print(row_format.format(i["InstanceId"],self.color_ok_green(i["State"]),i["ReasonCode"],i["Description"]))  
+                
+    def output_v2(self,answers,targets_health,healthy_host_count,unhealthy_host_count,tg_target_count):
 
-    def output_v2(self,answers,outputs,HealthyHostCount,UnHealthyHostCount):
-
-        print(answers)
-        print(outputs)
         #calculate column width 
         #build bar 
         #build table header 
         #build table rows
         #build matcher
 
-        for i in self.healthbar(range(len(outputs["TargetHealthDescriptions"])),HealthyHostCount, "  Healthy Targets: ", 100):
+        for i in self.healthbar(range(len(targets_health["TargetHealthDescriptions"])),healthy_host_count, "  Healthy Targets: ", 100):
             time.sleep(0.03) # any code you need
 
         print(self.FAIL)
-        for i in self.healthbar(range(len(outputs["TargetHealthDescriptions"])),UnHealthyHostCount, "Unhealthy Targets: ", 100):
+        for i in self.healthbar(range(len(targets_health["TargetHealthDescriptions"])),unhealthy_host_count, "Unhealthy Targets: ", 100):
             time.sleep(0.03) # any code you need
         print(self.ENDC)
 
-        # print(outputs)
+        # print(targets_health)
         row_format ="{:<40}{:<40}{:<100}"
+        target_number = 0 
+        tg_index = 0 
+        tg_sum = tg_target_count[tg_index]
+        #tg_target_count = [5, 0, 7]
+
+
         print(row_format.format('\033[1mTarget:Port\033[0m','\033[01mHealth Status\033[0m','\033[01mFailure Reason\033[0m'))
         print(row_format.format("----------------------------------------","--------------------------------------------------","----------","----------"))
-        for i in outputs["TargetHealthDescriptions"]:
+        for i in targets_health["TargetHealthDescriptions"]:
+            
+            target_number+=1
+            while(target_number > tg_sum):
+                tg_index+=1
+                tg_sum+=tg_target_count[tg_index]
 
             target_port = "\033[0m"+i["Target"]["Id"]+":"+str(i["Target"]["Port"])+"\033[0m"
-
+            
             if i["TargetHealth"]["State"] == "healthy":
 
                 print(row_format.format(target_port, self.color_ok_green((i["TargetHealth"]["State"])), ""))
@@ -128,12 +137,12 @@ class output_renderer:
 
             elif i["TargetHealth"]["Reason"] == "Target.ResponseCodeMismatch":
 
-                print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target responded with HTTP code {0} while the configured Success Codes is {1}".format(self.color_fail_red(i["TargetHealth"]["Description"][-5:]),self.color_ok_green("["+answers["tg"]["success_codes"]+"]"))))
-
+                print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target responded with HTTP code {0} while the configured Success Codes is {1}".format(self.color_fail_red(i["TargetHealth"]["Description"][-5:]),self.color_ok_green("["+answers["tg"][tg_index]["success_codes"]+"]"))))
+                # print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target responded with HTTP code {0} while the configured Success Codes is {1}".format("xxx","xxx")))
             elif i["TargetHealth"]["Reason"] == "Target.Timeout":
 
-                print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target did not respond within the configured Health Check timeout of "+self.color_ok_green("["+str(answers["tg"]["hc_timeout"])+"]")+" seconds"))
-
+                print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target did not respond within the configured Health Check timeout of "+self.color_ok_green("["+str(answers["tg"][tg_index]["hc_timeout"])+"]")+" seconds"))
+                # print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target did not respond within the configured Health Check timeout of "+self.color_ok_green("["+"xxx"+"]")+" seconds"))
             elif i["TargetHealth"]["Reason"] == "Elb.InternalError":
 
                 print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), i["TargetHealth"]["Reason"]+i["TargetHealth"]["Description"]+"FAILED to respond to Health Check within the allowed timeout"))

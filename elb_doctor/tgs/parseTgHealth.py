@@ -1,4 +1,4 @@
-def parseTgHealth(answers, outputs):
+def parseTgHealth(answers,targets_health):
     
    
     #option 1: count the outputs 
@@ -8,7 +8,7 @@ def parseTgHealth(answers, outputs):
 
     if answers['elb_type'] == 'classic':
         #needs a elbv1 health counter
-        for i in outputs["InstanceStates"]:
+        for i in targets_health["InstanceStates"]:
             if i["State"] == "OutOfService":
                 UnHealthyHostCount+=1 
                 
@@ -17,7 +17,7 @@ def parseTgHealth(answers, outputs):
 
     elif answers['elb_type'] != 'classic':
         #elbv2 health counter
-        for i in outputs["TargetHealthDescriptions"]:
+        for i in targets_health["TargetHealthDescriptions"]:
             if i["TargetHealth"]["State"] == "unhealthy":
                 UnHealthyHostCount+=1 
                 

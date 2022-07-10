@@ -68,17 +68,16 @@ def main():
     ]
 
     answers = prompt(questions)
+    targets_health,tg_target_count = getTargetHealth(answers)
+    healthy_host_count,unhealthy_host_count = parseTgHealth(answers,targets_health)  #consider to fetch from CW metrics, easier for AZ specific data
     
-    outputs = getTargetHealth(answers)
-
-    HealthyHostCount,UnHealthyHostCount = parseTgHealth(answers,outputs)  #consider to fetch from CW metrics, easier for AZ specific data
     print("\n")
 
     renderer = output_renderer()
     if answers['elb_type'] == 'classic':
-        renderer.output_v1(outputs,HealthyHostCount,UnHealthyHostCount)
+        renderer.output_v1(targets_health,healthy_host_count,unhealthy_host_count)
     elif answers['elb_type'] != 'classic':
-        renderer.output_v2(answers,outputs,HealthyHostCount,UnHealthyHostCount)
+        renderer.output_v2(answers,targets_health,healthy_host_count,unhealthy_host_count,tg_target_count)
 
 if __name__ == "__main__":
     main()
