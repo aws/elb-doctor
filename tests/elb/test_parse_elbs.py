@@ -1,14 +1,15 @@
 import unittest
 
-from elb_doctor.elb.parseElbs import parseElbs
+from elb_doctor.elb.parse_elbs import ParseElbs
 
 
 class TestParseElbs(unittest.TestCase):
     """Test class for ELB getter"""
     def setUp(self):
-        self.elb_parser = parseElbs
+        # instantiate the class in order to call the methods later
+        self.parse_elbs = ParseElbs()
 
-    def test_parse_elbs_one(self):
+    def test_parse_nlbs_one(self):
 
         elb_response = { "LoadBalancers": [
         {
@@ -40,15 +41,15 @@ class TestParseElbs(unittest.TestCase):
             "IpAddressType": "ipv4"
         }]}
 
-        parse_elbs = self.elb_parser(elb_response)
+        parse_nlbs = self.parse_elbs.parse_nlbs(elb_response)
 
         output = {"nlb-elb-easy-test":"arn:aws:elasticloadbalancing:ap-"
         "southeast-2:858918832707:loadbalancer/net/nlb-elb-easy-test/7a"
         "79cd99dbd10456" }
 
-        self.assertEqual(parse_elbs, output)
+        self.assertEqual(parse_nlbs, output)
 
-    def test_parse_elbs_multiple(self):
+    def test_parse_nlbs_multiple(self):
 
         elb_response = { "LoadBalancers": [
         {
@@ -110,18 +111,17 @@ class TestParseElbs(unittest.TestCase):
             "IpAddressType": "ipv4"
         }]}
 
-        parse_elbs = self.elb_parser(elb_response)
+        parse_nlbs = self.parse_elbs.parse_nlbs(elb_response)
 
         output = {"nlb-elb-easy-test":"arn:aws:elasticloadbalancing:ap-"
         "southeast-2:858918832707:loadbalancer/net/nlb-elb-easy-test/7a"
-        "79cd99dbd10456", "elb-lab": "arn:aws:elasticloadbalancing:ap-southe"
-        "ast-2:858918832707:loadbalancer/app/elb-lab/3d427508418606ed" }
+        "79cd99dbd10456" }
 
-        self.assertEqual(parse_elbs, output)
+        self.assertEqual(parse_nlbs, output)
 
-    def test_parse_elbs_none(self):
+    def test_parse_nlbs_none(self):
 
         elb_response = {}
 
         with self.assertRaises(KeyError):
-            self.elb_parser(elb_response)
+            self.parse_elbs.parse_nlbs(elb_response)
