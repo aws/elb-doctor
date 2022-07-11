@@ -134,7 +134,7 @@ other_regions=[
         'name':'cn-north-1(Beijing)',
         'value':"cn-north-1",
         'disabled':"unsupported"
-    }, 
+    },
     {
         'name':'cn-northwest-1(Ningxia)',
         'value':"cn-northwest-1",

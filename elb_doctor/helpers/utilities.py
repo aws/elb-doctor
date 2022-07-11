@@ -1,5 +1,6 @@
 import sys
-import time 
+import time
+
 
 class output_renderer:
 
@@ -12,9 +13,9 @@ class output_renderer:
     BOLD = '\033[1m'
 
     # def __init__(self,answers,outputs,HealthyHostCount,UnHealthyHostCount):
-        
+
     #     self.answers=answers
-    #     self.outputs=outputs 
+    #     self.outputs=outputs
     #     self.HealthyHostCount=HealthyHostCount
     #     self.UnHealthyHostCount=UnHealthyHostCount
 
@@ -45,13 +46,13 @@ class output_renderer:
     def healthbar(self, it, stopper, prefix="",size=60, out=sys.stdout): # Python3.3+
         count = len(it)
 
-        if count==0: 
+        if count==0:
             print(self.color_fail_red("There is no target registered!"))
-            return 
-            
+            return
+
         def show(j):
             x = int(size*j/count)    #needs to catch target=0 => division by Zero error
-            print("{}[{}{}] {}/{}".format(prefix, u"█"*x, "."*(size-x), j, count), 
+            print("{}[{}{}] {}/{}".format(prefix, u"█"*x, "."*(size-x), j, count),
                     end='\r', file=out, flush=True)
         show(0)
         for i, item in enumerate(it):
@@ -64,11 +65,11 @@ class output_renderer:
 
 
     # def link(uri, label=None):
-    #     if label is None: 
+    #     if label is None:
     #         label = uri
     #     parameters = ''
 
-    #     # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST 
+    #     # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST
     #     escape_mask = '\033]8;{};{}\033\\{}\033]8;;\033\\'
 
     #     return escape_mask.format(parameters, uri, label)
@@ -89,14 +90,14 @@ class output_renderer:
         for i in outputs["InstanceStates"]:
             if i["State"] == "OutOfService":
                 print(row_format.format(i["InstanceId"],self.color_fail_red(i["State"]),i["ReasonCode"],i["Description"]))
-            else: 
-                print(row_format.format(i["InstanceId"],self.color_ok_green(i["State"]),i["ReasonCode"],i["Description"]))  
+            else:
+                print(row_format.format(i["InstanceId"],self.color_ok_green(i["State"]),i["ReasonCode"],i["Description"]))
 
     def output_v2(self,answers,outputs,HealthyHostCount,UnHealthyHostCount):
 
-        #calculate column width 
-        #build bar 
-        #build table header 
+        #calculate column width
+        #build bar
+        #build table header
         #build table rows
         #build matcher
 
@@ -135,6 +136,6 @@ class output_renderer:
             elif i["TargetHealth"]["Reason"] == "Elb.InternalError":
 
                 print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), i["TargetHealth"]["Reason"]+i["TargetHealth"]["Description"]+"FAILED to respond to Health Check within the allowed timeout"))
-                
-            else: 
+
+            else:
                 print(row_format.format(i["Target"]["Id"]+":"+str(i["Target"]["Port"]), self.color_fail_red(i["TargetHealth"]["State"]),i["TargetHealth"]["Reason"],i["TargetHealth"]["Description"]))
