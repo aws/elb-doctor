@@ -1,19 +1,23 @@
 from typing import Dict
+
 import boto3
 
-#added support for CLB in boto3.client('elb')
-def getElbs() -> Dict:               
-    """Retrieves CLB in the account"""
 
-    client = boto3.client('elb')
-    response = client.describe_load_balancers()
+class GetElbs:
+    """ELB getter class"""
 
-    return response
+    def get_elb(self) -> Dict:
+        """Retrieves CLB in the account"""
 
-def getElbsV2() -> Dict:
-    """Retrieves ALB, NLB, GWLB in the account"""
+        client = boto3.client('elb')
+        response = client.describe_load_balancers()
 
-    client = boto3.client('elbv2')
-    response = client.describe_load_balancers()
+        return response
 
-    return response
+    def get_elbv2(self) -> Dict:
+        """Retrieves ALB, NLB, GWLB in the account"""
+
+        client = boto3.client('elbv2')
+        response = client.describe_load_balancers()
+
+        return response
