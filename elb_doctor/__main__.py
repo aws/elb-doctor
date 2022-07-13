@@ -10,7 +10,7 @@
 # from elb_doctor.helpers.elbtypes import elb_types
 
 from __future__ import print_function, unicode_literals
-from elb.getElbs import getElbs, getElbsV2
+from elb.getElbs import GetElbs
 from elb.parseElbs import parseElbs
 from tgs.getTargetHealth import getTargetHealth
 from tgs.tgHandler import tgHandler
@@ -22,6 +22,8 @@ from helpers.elbtypes import elb_types
 
 
 def main():
+
+    get_elb = GetElbs() 
 
     questions = [
         {
@@ -48,14 +50,14 @@ def main():
             'type': 'list',
             'name': 'elb',
             'message': 'Which CLB are you having issue with?',
-            'choices': parseElbs(getElbs()),
+            'choices': parseElbs(get_elb.get_elb()),
             'when': lambda answers: answers['elb_type'] == 'classic'
         },
         {
             'type': 'list',
             'name': 'elb',
             'message': 'Which ALB are you having issue with?',
-            'choices': parseElbs(getElbsV2()),
+            'choices': parseElbs(get_elb.get_elbv2()),
             'when': lambda answers: answers['elb_type'] != 'classic'
         },
         {
