@@ -1,6 +1,5 @@
 def parseTgHealth(answers,targets_health):
     
-   
     #option 1: count the outputs 
     #option 2: get it from CW metrics
     UnHealthyHostCount=0

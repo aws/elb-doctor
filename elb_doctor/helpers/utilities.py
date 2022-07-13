@@ -115,13 +115,14 @@ class output_renderer:
         tg_sum = tg_target_count[tg_index]
         #tg_target_count = [5, 0, 7]
 
-
+        print("tg_target_count" + str(tg_target_count))
         print(row_format.format('\033[1mTarget:Port\033[0m','\033[01mHealth Status\033[0m','\033[01mFailure Reason\033[0m'))
         print(row_format.format("----------------------------------------","--------------------------------------------------","----------","----------"))
         for i in targets_health["TargetHealthDescriptions"]:
             
             target_number+=1
             while(target_number > tg_sum):
+                print("All targets in target group ["+str(tg_index)+"] are printed.")
                 tg_index+=1
                 tg_sum+=tg_target_count[tg_index]
 
@@ -138,11 +139,11 @@ class output_renderer:
             elif i["TargetHealth"]["Reason"] == "Target.ResponseCodeMismatch":
 
                 print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target responded with HTTP code {0} while the configured Success Codes is {1}".format(self.color_fail_red(i["TargetHealth"]["Description"][-5:]),self.color_ok_green("["+answers["tg"][tg_index]["success_codes"]+"]"))))
-                # print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target responded with HTTP code {0} while the configured Success Codes is {1}".format("xxx","xxx")))
+
             elif i["TargetHealth"]["Reason"] == "Target.Timeout":
 
                 print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target did not respond within the configured Health Check timeout of "+self.color_ok_green("["+str(answers["tg"][tg_index]["hc_timeout"])+"]")+" seconds"))
-                # print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), "This target did not respond within the configured Health Check timeout of "+self.color_ok_green("["+"xxx"+"]")+" seconds"))
+
             elif i["TargetHealth"]["Reason"] == "Elb.InternalError":
 
                 print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), i["TargetHealth"]["Reason"]+i["TargetHealth"]["Description"]+"FAILED to respond to Health Check within the allowed timeout"))
