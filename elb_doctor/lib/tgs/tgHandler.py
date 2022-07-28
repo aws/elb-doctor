@@ -1,7 +1,8 @@
 
 from secrets import choice
-from tgs.getTg import getTG
+from elb_doctor.lib.tgs.getTg import getTG
 from PyInquirer import Separator
+
 
 def tgHandler(answers) -> list:
 

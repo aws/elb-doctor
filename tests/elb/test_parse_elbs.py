@@ -1,6 +1,6 @@
 import unittest
 
-from elb_doctor.elb.parse_elbs import ParseElbs
+from elb_doctor.lib.elb.parse_elbs import ParseElbs
 
 
 class TestParseElbs(unittest.TestCase):

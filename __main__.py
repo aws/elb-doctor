@@ -10,15 +10,15 @@
 # from elb_doctor.helpers.elbtypes import elb_types
 
 from __future__ import print_function, unicode_literals
-from elb.getElbs import GetElbs
-from elb.parseElbs import parseElbs
-from tgs.getTargetHealth import getTargetHealth
-from tgs.tgHandler import tgHandler
-from tgs.parseTgHealth import parseTgHealth
-from helpers.utilities import output_renderer
+from elb_doctor.lib.elb.getElbs import GetElbs
+from elb_doctor.lib.elb.parseElbs import parseElbs
+from elb_doctor.lib.tgs import getTargetHealth
+from elb_doctor.lib.tgs import tgHandler
+from elb_doctor.lib.tgs import parseTgHealth
+from elb_doctor.lib.helpers.utilities import output_renderer
 from PyInquirer import prompt
-from helpers.regions import standard_regions,other_regions
-from helpers.elbtypes import elb_types
+from elb_doctor.lib.helpers.regions import standard_regions,other_regions
+from elb_doctor.lib.helpers.elbtypes import elb_types
 
 
 def main():
