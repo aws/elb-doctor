@@ -10,8 +10,8 @@
 # from elb_doctor.helpers.elbtypes import elb_types
 
 from __future__ import print_function, unicode_literals
-from elb_doctor.lib.elb.getElbs import GetElbs
-from elb_doctor.lib.elb.parseElbs import parseElbs
+from elb_doctor.lib.elb.get_elbs import GetElbs
+from elb_doctor.lib.elb.parse_elbs import ParseElbs
 from elb_doctor.lib.tgs import getTargetHealth
 from elb_doctor.lib.tgs import tgHandler
 from elb_doctor.lib.tgs import parseTgHealth
@@ -20,10 +20,13 @@ from PyInquirer import prompt
 from elb_doctor.lib.helpers.regions import standard_regions,other_regions
 from elb_doctor.lib.helpers.elbtypes import elb_types
 
+import pdb
+
 
 def main():
 
-    get_elb = GetElbs() 
+    get_elb = GetElbs()
+    parse_elbs = ParseElbs()
 
     questions = [
         {
@@ -50,14 +53,14 @@ def main():
             'type': 'list',
             'name': 'elb',
             'message': 'Which CLB are you having issue with?',
-            'choices': parseElbs(get_elb.get_elb()),
+            'choices': parse_elbs.parse_clbs(get_elb.get_elb()),
             'when': lambda answers: answers['elb_type'] == 'classic'
         },
         {
             'type': 'list',
             'name': 'elb',
             'message': 'Which ALB are you having issue with?',
-            'choices': parseElbs(get_elb.get_elbv2()),
+            'choices': parse_elbs.parse_albs(get_elb.get_elbv2()),
             'when': lambda answers: answers['elb_type'] != 'classic'
         },
         {
@@ -68,7 +71,8 @@ def main():
             'when': lambda answers: answers['elb_type'] != 'classic'
         }
     ]
-
+    #pdb.set_trace()
+    print(questions)
     answers = prompt(questions)
     targets_health,tg_target_count = getTargetHealth(answers)
     healthy_host_count,unhealthy_host_count = parseTgHealth(answers,targets_health)  #consider to fetch from CW metrics, easier for AZ specific data
