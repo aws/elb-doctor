@@ -1,15 +1,16 @@
 
 from secrets import choice
-from tgs.getTg import getTG
+from elb_doctor.lib.tgs.get_target_group import GetTargetGroup
 from PyInquirer import Separator
 
 def tgHandler(answers) -> list:
 
+    getTG = GetTargetGroup()
     if(answers['elb_type'] == 'classic'): return    #prevent invocation if CLB is selected
         
     choices = []
     all_tgs = []
-    outputs = getTG(answers)
+    outputs = getTG.get_elbv2_tg(answers)
 
     for i in outputs['TargetGroups']:
         if 'Matcher' in i: 

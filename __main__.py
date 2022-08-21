@@ -10,7 +10,7 @@
 # from elb_doctor.helpers.elbtypes import elb_types
 
 from __future__ import print_function, unicode_literals
-from elb.getElbs import GetElbs
+from elb_doctor.lib.elb.getElbs import GetElbs
 from elb.parseElbs import parseElbs
 from tgs.getTargetHealth import getTargetHealth
 from tgs.tgHandler import tgHandler
