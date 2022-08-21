@@ -11,10 +11,11 @@
 
 from __future__ import print_function, unicode_literals
 from elb_doctor.lib.elb.get_elbs import GetElbs
+from elb_doctor.lib.elb.parseElbs import parseElbs
 from elb_doctor.lib.elb.parse_elbs import ParseElbs
-from elb_doctor.lib.tgs import getTargetHealth
-from elb_doctor.lib.tgs import tgHandler
-from elb_doctor.lib.tgs import parseTgHealth
+from elb_doctor.lib.tgs.getTargetHealth import getTargetHealth
+from elb_doctor.lib.tgs.tgHandler import tgHandler                        #this needs to be imported as function insteald of py module, it gets passed to PyInquiry as a callable
+from elb_doctor.lib.tgs.parseTgHealth import parseTgHealth
 from elb_doctor.lib.helpers.utilities import output_renderer
 from PyInquirer import prompt
 from elb_doctor.lib.helpers.regions import standard_regions,other_regions
@@ -60,7 +61,7 @@ def main():
             'type': 'list',
             'name': 'elb',
             'message': 'Which ALB are you having issue with?',
-            'choices': parse_elbs.parse_albs(get_elb.get_elbv2()),
+            'choices': parseElbs(get_elb.get_elbv2()),                   #currently there is no better way to call parse_elbs.parse_albs, parse_elbs.parse_nlbs or parse_elbs.parse_gwlbs other than duplicating this question 3 times and use 'when' to control which one to display. get_elbv2 call will also be duplicated as well.
             'when': lambda answers: answers['elb_type'] != 'classic'
         },
         {

@@ -38,12 +38,16 @@ class ParseElbs:
     def parse_clbs(self, elb_response) -> Dict:
         """Parse classic load balancers"""
 
-        all_clbs = {}
+        all_clbs = []
 
         try:
             for i in elb_response['LoadBalancerDescriptions']:
                 # LoadBalancerName is equivalent to ARN for classic elb
-                all_clbs[i['LoadBalancerName']] = i['LoadBalancerName']
+                all_clbs.append({
+                    'name': i['LoadBalancerName'],
+                    'value': i['LoadBalancerName'] 
+                })
+                
         except KeyError as error_no_clbs:
             # reraise the error
             raise error_no_clbs
