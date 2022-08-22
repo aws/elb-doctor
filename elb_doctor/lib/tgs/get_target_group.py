@@ -4,7 +4,7 @@ import boto3
 
 class GetTargetGroup:
 
-    def get_elbv2_tg(answers) -> Dict:
+    def get_elbv2_tg(self, answers) -> Dict:
         """Retrieves target group attributes from the specified TG"""
 
         client = boto3.client('elbv2')

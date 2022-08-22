@@ -13,17 +13,18 @@ from __future__ import print_function, unicode_literals
 from elb_doctor.lib.elb.getElbs import GetElbs
 from elb_doctor.lib.elb.parseElbs import parseElbs
 from elb_doctor.lib.tgs.getTargetHealth import getTargetHealth
-from elb_doctor.lib.tgs.tgHandler import tgHandler
 from elb_doctor.lib.tgs.parseTgHealth import parseTgHealth
 from elb_doctor.lib.helpers.utilities import output_renderer
 from PyInquirer import prompt
 from elb_doctor.lib.helpers.regions import standard_regions,other_regions
 from elb_doctor.lib.helpers.elbtypes import elb_types
+from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 
 
 def main():
 
-    get_elb = GetElbs() 
+    get_elb = GetElbs()
+    api = ElbDoctorApi()
 
     questions = [
         {
@@ -64,7 +65,7 @@ def main():
             'type': 'list',
             'name': 'tg',
             'message': 'Which TG/backend are you having issue with?',
-            'choices': tgHandler,                                         #this is always invoked despite if the question is asked, causing problem when CLB is selected
+            'choices': api.retrieve_target_groups,                                   #this is always invoked despite if the question is asked, causing problem when CLB is selected
             'when': lambda answers: answers['elb_type'] != 'classic'
         }
     ]
