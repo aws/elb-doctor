@@ -288,7 +288,7 @@ class TestParseElbs(unittest.TestCase):
 
         parse_clbs = self.parse_elbs.parse_clbs(elb_response)
 
-        output = {"test-classic-lb": "test-classic-lb"}
+        output = [{"name": "test-classic-lb", "value": "test-classic-lb"}]
 
         self.assertEqual(parse_clbs, output)
 
@@ -391,7 +391,7 @@ class TestParseElbs(unittest.TestCase):
 
         parse_clbs = self.parse_elbs.parse_clbs(elb_response)
 
-        output = {"test-classic-lb": "test-classic-lb", "test-classic-lb2": "test-classic-lb2"}
+        output = [{"name": "test-classic-lb", "value": "test-classic-lb"}, {"name": "test-classic-lb2", "value": "test-classic-lb2"}]
 
         self.assertEqual(parse_clbs, output)
 
