@@ -6,29 +6,22 @@ import argparse
 from argparse import Namespace
 from typing import Dict
 
-from elb.getElbs import getElbs
-from elb.parseElbs import parseElbs
-from elb.parseAlbs import parseAlbs
-from elb.parseNlbs import parseNlbs
-from tgs.getAllTgs import getAllTGs
-from tgs.parseTgs import parseTgs
+from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 
 
 def _execute_cli() -> None:
-    """
-    basic cli for testing
-    """
+    """basic cli for testing"""
 
     # setup the cli parameters
     parser = argparse.ArgumentParser(description='elb easy')
     subparsers = parser.add_subparsers()
 
-    elb_cli_parser = subparsers.add_parser('all-elb',
-                                            help='Run commands on ALL ELBs')
-    elb_cli_parser.set_defaults(func=elb_cli)
+    clb_cli_parser = subparsers.add_parser('get-clb',
+                                            help='Run commands on ALL CLBs')
+    clb_cli_parser.set_defaults(func=clb_cli)
     # all-tg set true, no argument required by default
-    elb_cli_parser.add_argument('--all-tg',
-                                help='retrieve ALL ELB target groups',
+    clb_cli_parser.add_argument('--all-tg',
+                                help='retrieve ALL CLB target groups',
                                 nargs="?",
                                 const=True,
                                 required=False)
@@ -73,8 +66,8 @@ def _execute_cli() -> None:
         # cli parameters
         arguments = parser.parse_args()
         # catch zero parameters and print help
-        if "elb_cli" in arguments.func.__name__:
-            elb_cli(arguments)
+        if "clb_cli" in arguments.func.__name__:
+            clb_cli(arguments)
         elif "alb_cli" in arguments.func.__name__:
             alb_cli(arguments)
         elif "nlb_cli" in arguments.func.__name__:
@@ -84,38 +77,29 @@ def _execute_cli() -> None:
         print(arguments.print_help())
 
 
+def clb_cli(arguments: Namespace) -> Dict:
+    print("- All CLBs -")
+    elb_doctor_api = ElbDoctorApi()
+    all_clbs = elb_doctor_api.retrieve_clbs()
+    for i in all_clbs:
+        for key, value in i.items():
+            print(f"Name:\t{key}\nDNS:\t{value}")
 
-def elb_cli(arguments: Namespace) -> Dict:
-    get_elb = getElbs
-    parse_elbs = parseElbs
-    all_elbs = parse_elbs(get_elb())
-    get_all_tgs = getAllTGs
-
-    # all elbs and all tgs
-    if arguments.all_tg:
-        response = get_all_tgs(all_elbs)
-        for key, value in response.items():
-            print(f"\nELB Name: {key}")
-            for x, y in value.items():
-                print(f"Target Group Name: {x}\nTarget Group Data:\n{y}")
-    # all elbs
-    else:
-        response = all_elbs
-        print(response)
-        for key, value in response.items():
-            print(key, value)
+    return all_clbs
 
 
 def alb_cli(arguments: Namespace) -> Dict:
     """ALB commands """
-    get_elb = getElbs
-    get_alb = parseAlbs
-    get_all_tgs = getAllTGs
-    parse_tg = parseTgs
+    print("- All ALBs -")
+    elb_doctor_api = ElbDoctorApi()
+    all_albs = elb_doctor_api.retrieve_albs()
+    for i in all_albs:
+        for key, value in i.items():
+            print(f"Name:\t{key}\nARN:\t{value}")
 
-    # get all albs
-    all_alb = get_alb(get_elb())
+    return all_albs
 
+"""
     if arguments.all_tg is True:
         # get all target groups from all albs
         for key, value in all_alb.items():
@@ -130,13 +114,15 @@ def alb_cli(arguments: Namespace) -> Dict:
     else:
         for key, value in all_alb.items():
             print(f"ALB Name: {key}\nALB ARN: {value}")
-
+"""
 def nlb_cli() -> Dict:
-    get_elb = getElbs
-    get_nlb = parseNlbs
-    output = get_nlb(get_elb())
-
-    print(output)
+    print("- All NLBs -")
+    elb_doctor_api = ElbDoctorApi()
+    all_nlbs = elb_doctor_api.retrieve_nlbs()
+    for i in all_nlbs:
+        for key, value in i.items():
+            print(f"Name:\t{key}\nARN:\t{value}")
+    return all_nlbs
 
 
 

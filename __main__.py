@@ -10,20 +10,24 @@
 # from elb_doctor.helpers.elbtypes import elb_types
 
 from __future__ import print_function, unicode_literals
-from elb.getElbs import GetElbs
-from elb.parseElbs import parseElbs
-from tgs.getTargetHealth import getTargetHealth
-from tgs.tgHandler import tgHandler
-from tgs.parseTgHealth import parseTgHealth
-from helpers.utilities import output_renderer
+from elb_doctor.lib.elb.get_elbs import GetElbs
+from elb_doctor.lib.elb.parseElbs import parseElbs
+from elb_doctor.lib.elb.parse_elbs import ParseElbs
+from elb_doctor.lib.tgs.getTargetHealth import getTargetHealth
+from elb_doctor.lib.tgs.tgHandler import tgHandler                        #this needs to be imported as function insteald of py module, it gets passed to PyInquiry as a callable
+from elb_doctor.lib.tgs.parseTgHealth import parseTgHealth
+from elb_doctor.lib.helpers.utilities import output_renderer
 from PyInquirer import prompt
-from helpers.regions import standard_regions,other_regions
-from helpers.elbtypes import elb_types
+from elb_doctor.lib.helpers.regions import standard_regions,other_regions
+from elb_doctor.lib.helpers.elbtypes import elb_types
+
+import pdb
 
 
 def main():
 
-    get_elb = GetElbs() 
+    get_elb = GetElbs()
+    parse_elbs = ParseElbs()
 
     questions = [
         {
@@ -50,14 +54,14 @@ def main():
             'type': 'list',
             'name': 'elb',
             'message': 'Which CLB are you having issue with?',
-            'choices': parseElbs(get_elb.get_elb()),
+            'choices': parse_elbs.parse_clbs(get_elb.get_elb()),
             'when': lambda answers: answers['elb_type'] == 'classic'
         },
         {
             'type': 'list',
             'name': 'elb',
             'message': 'Which ALB are you having issue with?',
-            'choices': parseElbs(get_elb.get_elbv2()),
+            'choices': parseElbs(get_elb.get_elbv2()),                   #currently there is no better way to call parse_elbs.parse_albs, parse_elbs.parse_nlbs or parse_elbs.parse_gwlbs other than duplicating this question 3 times and use 'when' to control which one to display. get_elbv2 call will also be duplicated as well.
             'when': lambda answers: answers['elb_type'] != 'classic'
         },
         {
@@ -68,7 +72,7 @@ def main():
             'when': lambda answers: answers['elb_type'] != 'classic'
         }
     ]
-
+    #pdb.set_trace()
     answers = prompt(questions)
     targets_health,tg_target_count = getTargetHealth(answers)
     healthy_host_count,unhealthy_host_count = parseTgHealth(answers,targets_health)  #consider to fetch from CW metrics, easier for AZ specific data
