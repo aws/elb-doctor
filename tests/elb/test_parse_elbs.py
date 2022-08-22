@@ -43,8 +43,8 @@ class TestParseElbs(unittest.TestCase):
 
         parse_nlbs = self.parse_elbs.parse_nlbs(elb_response)
 
-        output = {"nlb-elb-easy-test": "arn:aws:elasticloadbalancing:ap-southeast-2:858918832707:"
-                                       "loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456"}
+        output = [{"name": "nlb-elb-easy-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:858918832707:"
+                                       "loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456"}]
 
         self.assertEqual(parse_nlbs, output)
 
@@ -111,8 +111,8 @@ class TestParseElbs(unittest.TestCase):
 
         parse_nlbs = self.parse_elbs.parse_nlbs(elb_response)
 
-        output = {"nlb-elb-easy-test": "arn:aws:elasticloadbalancing:ap-southeast-2:858918832707:"
-                                       "loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456"}
+        output = [{"name": "nlb-elb-easy-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:858918832707:"
+                                       "loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456"}]
 
         self.assertEqual(parse_nlbs, output)
 
@@ -157,8 +157,8 @@ class TestParseElbs(unittest.TestCase):
 
         parse_albs = self.parse_elbs.parse_albs(elb_response)
 
-        output = {"elb-lab": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                             "858918832707:loadbalancer/app/elb-lab/3d427508418606ed"}
+        output = [{"name": "elb-lab", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:"
+                             "858918832707:loadbalancer/app/elb-lab/3d427508418606ed"}]
 
         self.assertEqual(parse_albs, output)
 
@@ -225,8 +225,8 @@ class TestParseElbs(unittest.TestCase):
 
         parse_albs = self.parse_elbs.parse_albs(elb_response)
 
-        output = {"elb-lab": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                             "858918832707:loadbalancer/app/elb-lab/3d427508418606ed"}
+        output = [{"name": "elb-lab", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:"
+                             "858918832707:loadbalancer/app/elb-lab/3d427508418606ed"}]
 
         self.assertEqual(parse_albs, output)
 

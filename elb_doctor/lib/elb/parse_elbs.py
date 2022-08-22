@@ -1,41 +1,48 @@
 """Parser class for all ELB types - clb, alb, nlb, gwlb.  Returns name and arn from getELBs response etc"""
 
+from typing import List
 from typing import Dict
 
 
 class ParseElbs:
 
-    def parse_albs(self, elb_response) -> Dict:
+    def parse_albs(self, elb_response) -> List[Dict]:
         """Take ELB response and filter out only ALBs"""
 
-        all_albs = {}
+        all_albs = []
 
         try:
             for i in elb_response['LoadBalancers']:
                 if 'application' in i['Type']:
-                    all_albs[i['LoadBalancerName']] = i['LoadBalancerArn']
+                    all_albs.append({
+                    'name': i['LoadBalancerName'],
+                    'value': i['LoadBalancerArn']
+                })
         except KeyError as error_no_albs:
             # reraise the error
             raise error_no_albs
 
         return all_albs
 
-    def parse_nlbs(self, elb_response) -> Dict:
+    def parse_nlbs(self, elb_response) -> List[Dict]:
         """Take ELB response and filter out only NLBs"""
 
-        all_nlbs = {}
+        all_nlbs = []
 
         try:
             for i in elb_response['LoadBalancers']:
                 if 'network' in i['Type']:
-                    all_nlbs[i['LoadBalancerName']] = i['LoadBalancerArn']
+                    all_nlbs.append({
+                    'name': i['LoadBalancerName'],
+                    'value': i['LoadBalancerArn']
+                })
         except KeyError as error_no_nlbs:
             # reraise the error
             raise error_no_nlbs
 
         return all_nlbs
 
-    def parse_clbs(self, elb_response) -> Dict:
+    def parse_clbs(self, elb_response) -> List[Dict]:
         """Parse classic load balancers"""
 
         all_clbs = []
@@ -45,7 +52,7 @@ class ParseElbs:
                 # LoadBalancerName is equivalent to ARN for classic elb
                 all_clbs.append({
                     'name': i['LoadBalancerName'],
-                    'value': i['LoadBalancerName'] 
+                    'value': i['LoadBalancerName']
                 })
                 
         except KeyError as error_no_clbs:

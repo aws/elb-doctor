@@ -73,7 +73,6 @@ def main():
         }
     ]
     #pdb.set_trace()
-    print(questions)
     answers = prompt(questions)
     targets_health,tg_target_count = getTargetHealth(answers)
     healthy_host_count,unhealthy_host_count = parseTgHealth(answers,targets_health)  #consider to fetch from CW metrics, easier for AZ specific data

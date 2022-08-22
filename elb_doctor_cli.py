@@ -81,8 +81,9 @@ def clb_cli(arguments: Namespace) -> Dict:
     print("- All CLBs -")
     elb_doctor_api = ElbDoctorApi()
     all_clbs = elb_doctor_api.retrieve_clbs()
-    for key, value in all_clbs.items():
-        print(f"Name:\t{key}\nLB Name:{value}")
+    for i in all_clbs:
+        for key, value in i.items():
+            print(f"Name:\t{key}\nDNS:\t{value}")
 
     return all_clbs
 
@@ -92,8 +93,9 @@ def alb_cli(arguments: Namespace) -> Dict:
     print("- All ALBs -")
     elb_doctor_api = ElbDoctorApi()
     all_albs = elb_doctor_api.retrieve_albs()
-    for key, value in all_albs.items():
-        print(f"Name:\t{key}\nARN:\t{value}")
+    for i in all_albs:
+        for key, value in i.items():
+            print(f"Name:\t{key}\nARN:\t{value}")
 
     return all_albs
 
@@ -117,9 +119,9 @@ def nlb_cli() -> Dict:
     print("- All NLBs -")
     elb_doctor_api = ElbDoctorApi()
     all_nlbs = elb_doctor_api.retrieve_nlbs()
-    for key, value in all_nlbs.items():
-        print(f"Name:\t{key}\nARN:\t{value}")
-
+    for i in all_nlbs:
+        for key, value in i.items():
+            print(f"Name:\t{key}\nARN:\t{value}")
     return all_nlbs
 
 
