@@ -12,10 +12,10 @@ from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 def _execute_cli() -> None:
     """basic cli for testing"""
 
+
     # setup the cli parameters
     parser = argparse.ArgumentParser(description='elb easy')
     subparsers = parser.add_subparsers()
-
     clb_cli_parser = subparsers.add_parser('get-clb',
                                             help='Run commands on ALL CLBs')
     clb_cli_parser.set_defaults(func=clb_cli)
@@ -75,7 +75,6 @@ def _execute_cli() -> None:
     except AttributeError as no_arguments:
         arguments = parser.parse_args(['--help'])
         print(arguments.print_help())
-
 
 def clb_cli(arguments: Namespace) -> Dict:
     print("- All CLBs -")

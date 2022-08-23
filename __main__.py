@@ -1,32 +1,22 @@
-# from __future__ import print_function, unicode_literals
-# from elb_doctor.elb.getElbs import getElbs, getElbsV2
-# from elb_doctor.elb.parseElbs import parseElbs
-# from elb_doctor.tgs.getTargetHealth import getTargetHealth
-# from elb_doctor.tgs.tgHandler import tgHandler
-# from elb_doctor.tgs.parseTgHealth import parseTgHealth
-# from elb_doctor.helpers.utilities import output_renderer
-# from PyInquirer import prompt
-# from elb_doctor.helpers.regions import standard_regions,other_regions
-# from elb_doctor.helpers.elbtypes import elb_types
 
 from __future__ import print_function, unicode_literals
 from elb_doctor.lib.elb.get_elbs import GetElbs
 from elb_doctor.lib.elb.parseElbs import parseElbs
 from elb_doctor.lib.elb.parse_elbs import ParseElbs
 from elb_doctor.lib.tgs.getTargetHealth import getTargetHealth
-from elb_doctor.lib.tgs.tgHandler import tgHandler                        #this needs to be imported as function insteald of py module, it gets passed to PyInquiry as a callable
 from elb_doctor.lib.tgs.parseTgHealth import parseTgHealth
 from elb_doctor.lib.helpers.utilities import output_renderer
 from PyInquirer import prompt
 from elb_doctor.lib.helpers.regions import standard_regions,other_regions
 from elb_doctor.lib.helpers.elbtypes import elb_types
+from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 
-import pdb
 
 
 def main():
 
     get_elb = GetElbs()
+    api = ElbDoctorApi()
     parse_elbs = ParseElbs()
 
     questions = [
@@ -68,11 +58,11 @@ def main():
             'type': 'list',
             'name': 'tg',
             'message': 'Which TG/backend are you having issue with?',
-            'choices': tgHandler,                                         #this is always invoked despite if the question is asked, causing problem when CLB is selected
+            'choices': api.retrieve_target_groups,                                   #this is always invoked despite if the question is asked, causing problem when CLB is selected
             'when': lambda answers: answers['elb_type'] != 'classic'
         }
     ]
-    #pdb.set_trace()
+    
     answers = prompt(questions)
     targets_health,tg_target_count = getTargetHealth(answers)
     healthy_host_count,unhealthy_host_count = parseTgHealth(answers,targets_health)  #consider to fetch from CW metrics, easier for AZ specific data

@@ -1,6 +1,4 @@
-"""Parser class for all ELB types - clb, alb, nlb, gwlb.  Returns name and arn from getELBs response etc"""
 
-from typing import List
 from typing import Dict
 
 
@@ -17,7 +15,7 @@ class ParseElbs:
                     all_albs.append({
                     'name': i['LoadBalancerName'],
                     'value': i['LoadBalancerArn']
-                })
+                })   
         except KeyError as error_no_albs:
             # reraise the error
             raise error_no_albs
@@ -32,6 +30,7 @@ class ParseElbs:
         try:
             for i in elb_response['LoadBalancers']:
                 if 'network' in i['Type']:
+
                     all_nlbs.append({
                     'name': i['LoadBalancerName'],
                     'value': i['LoadBalancerArn']
