@@ -116,14 +116,13 @@ class output_renderer:
         tg_sum = tg_target_count[tg_index]
         #tg_target_count = [5, 0, 7]
 
-        # print("tg_target_count" + str(tg_target_count))
         print(row_format.format('\033[1mTarget:Port\033[0m','\033[01mHealth Status\033[0m','\033[01mFailure Reason\033[0m'))
         print(row_format.format("----------------------------------------","--------------------------------------------------","----------","----------"))
         for i in targets_health["TargetHealthDescriptions"]:
             
             target_number+=1
             while(target_number > tg_sum):
-                # print("All targets in target group ["+str(tg_index)+"] are printed.")
+
                 tg_index+=1
                 tg_sum+=tg_target_count[tg_index]
 
