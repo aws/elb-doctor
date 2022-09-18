@@ -1,3 +1,20 @@
+## My Project
+
+TODO: Fill this README out!
+
+Be sure to:
+
+* Change the title in this README
+* Edit your repository description on GitHub
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
+
 # elb-doctor
 Sometimes troubleshooting AWS ELB can be very difficult and intimidating due to the complexity of virtual cloud network and various ELB types/features. Navigating in multi-layered AWS console to look for a clue is not an easy task either and could often be time consuming. This tool provides a no-brainer CLI wizard to help you check ELB basics, display target group health status and potentially identify the root cause.
 
