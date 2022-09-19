@@ -1,7 +1,6 @@
 import sys
 import time
 
-
 class output_renderer:
 
     # HEADER = '\033[95m'
@@ -46,7 +45,6 @@ class output_renderer:
         self.FAIL = ''
         self.ENDC = ''
 
-
     def healthbar(self, it, stopper, prefix="",size=60, out=sys.stdout): # Python3.3+
         count = len(it)
 
@@ -67,16 +65,41 @@ class output_renderer:
         # print("\n", flush=True, file=out)
         print(flush=True, file=out)
 
+    def track_tg_index(self,target_printed,tg_index,targets_sum,tg_target_count):
+        """
+        This is used to support all/multi TG feature for output_v2
 
-    # def link(uri, label=None):
-    #     if label is None:
-    #         label = uri
-    #     parameters = ''
+        targets_health = {
+            'TargetHealthDescriptions': [
+                                        {tg1-target1},{tg1-target2},
+                                        {tg2-target1},
+                                        {tg3-target1},{tg3-target2},{tg3-target3}
+                                        ],
+            'ResponseMetadata': {...}
+        }
+        
+        tg_target_count = [2, 1, 3]
 
-    #     # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST
-    #     escape_mask = '\033]8;{};{}\033\\{}\033]8;;\033\\'
+        answers["tg"] = [
+        {'tg_arn': 'x', 'success_codes': '200', 'hc_timeout': 5}, 
+        {'tg_arn': 'x', 'success_codes': '200', 'hc_timeout': 5}, 
+        {'tg_arn': 'x', 'success_codes': '200', 'hc_timeout': 5}, 
+        {'tg_arn': 'x', 'success_codes': '200', 'hc_timeout': 5}, 
+        {'tg_arn': 'x', 'success_codes': '200-399', 'hc_timeout': 5}, 
+        {'tg_arn': 'x', 'success_codes': '200', 'hc_timeout': 5}
+        ]
 
-    #     return escape_mask.format(parameters, uri, label)
+        so that tg_index tracks the answers["tg"][tg_index] for the target is getting printed, to extract success_codes or hc_timeout
+        """
+        
+        target_printed+=1
+
+        while(target_printed > targets_sum):
+
+            tg_index+=1
+            targets_sum+=tg_target_count[tg_index]
+
+        return tg_index,target_printed,targets_sum
 
     def output_v1(self,targets_health,healthy_host_count,unhealthy_host_count):
 
@@ -91,7 +114,6 @@ class output_renderer:
         row_format ="{:<40}{:<35}{:<35}{:<40}"
 
         #CLB DIH reason code seems to be useless. haven't found any situation that it provides meaningful information. Consider to remove. 
-
         print(row_format.format(self.font_header_bold('Target:Port'),self.font_header_bold('HealthState'),self.font_header_bold('Reason'),self.font_header_bold('Description')))
         print(row_format.format("----------------------------------------","---------------------------------------------","---------------------------------------------","--------------------"))
         
@@ -100,41 +122,35 @@ class output_renderer:
                 print(row_format.format(self.invis_format_match(i["InstanceId"]),self.color_fail_red(i["State"]),self.invis_format_match(i["ReasonCode"]),i["Description"]))
             else: 
                 print(row_format.format(self.invis_format_match(i["InstanceId"]),self.color_ok_green(i["State"]),self.invis_format_match(i["ReasonCode"]),i["Description"]))  
-                
+    
     def output_v2(self,answers,targets_health,healthy_host_count,unhealthy_host_count,tg_target_count):
 
-        #calculate column width
-        #build bar
-        #build table header
-        #build table rows
-        #build matcher
+        #calculate column width TO BE Done
 
+        #build health bar
         for i in self.healthbar(range(len(targets_health["TargetHealthDescriptions"])),healthy_host_count, "  Healthy Targets: ", 100):
-            time.sleep(0.03) # any code you need
+            time.sleep(0.03)
 
         print(self.FAIL)
         for i in self.healthbar(range(len(targets_health["TargetHealthDescriptions"])),unhealthy_host_count, "Unhealthy Targets: ", 100):
-            time.sleep(0.03) # any code you need
+            time.sleep(0.03)
         print(self.ENDC)
 
-        # print(targets_health)
+        #build table header
         row_format ="{:<40}{:<40}{:<100}"
-        target_number = 0 
-        tg_index = 0 
-        tg_sum = tg_target_count[tg_index]
-        #tg_target_count = [5, 0, 7]
-
         print(row_format.format(self.font_header_bold('Target:Port'),self.font_header_bold('Health Status'),self.font_header_bold('Failure Reason')))
         print(row_format.format("----------------------------------------","--------------------------------------------------","------------------------------------------------------------"))
-        
+
+        #track tg_index for answers["tg"] and build table rows
+        target_printed = 0
+        tg_index = 0
+        targets_sum = tg_target_count[tg_index]
+
+        #build matcher for filtering TO BE Done
+
         for i in targets_health["TargetHealthDescriptions"]:
             
-            target_number+=1
-            while(target_number > tg_sum):
-
-                tg_index+=1
-                tg_sum+=tg_target_count[tg_index]
-
+            tg_index,target_printed,targets_sum = self.track_tg_index(target_printed,tg_index,targets_sum,tg_target_count)
             target_port = self.invis_format_match(i["Target"]["Id"]+":"+str(i["Target"]["Port"]))
             
             if i["TargetHealth"]["State"] == "healthy":
