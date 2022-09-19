@@ -9,8 +9,8 @@ class output_renderer:
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
+    ENDC = '\033[00m'
+    BOLD = '\033[01m'
 
     # def __init__(self,answers,targets_health,healthy_host_count,unhealthy_host_count):
         
@@ -33,6 +33,10 @@ class output_renderer:
 
     def font_header_bold(self,string):
         return self.BOLD+string+self.ENDC
+
+    def invis_format_match(self,string):
+        return self.ENDC+string+self.ENDC
+
 
     def disable(self):
         self.HEADER = ''
@@ -84,14 +88,18 @@ class output_renderer:
             time.sleep(0.03)
         print(self.ENDC)
 
-        row_format ="{:<30}{:<35}{:<20}{:<40}"
-        print(row_format.format('Target:Port','HealthState','Reason','Description'))
-        print(row_format.format("------------------------------","---------------------------------------------","--------------------","--------------------"))
+        row_format ="{:<40}{:<35}{:<35}{:<40}"
+
+        #CLB DIH reason code seems to be useless. haven't found any situation that it provides meaningful information. Consider to remove. 
+
+        print(row_format.format(self.font_header_bold('Target:Port'),self.font_header_bold('HealthState'),self.font_header_bold('Reason'),self.font_header_bold('Description')))
+        print(row_format.format("----------------------------------------","---------------------------------------------","---------------------------------------------","--------------------"))
+        
         for i in targets_health["InstanceStates"]:
             if i["State"] == "OutOfService":
-                print(row_format.format(i["InstanceId"],self.color_fail_red(i["State"]),i["ReasonCode"],i["Description"]))
+                print(row_format.format(self.invis_format_match(i["InstanceId"]),self.color_fail_red(i["State"]),self.invis_format_match(i["ReasonCode"]),i["Description"]))
             else: 
-                print(row_format.format(i["InstanceId"],self.color_ok_green(i["State"]),i["ReasonCode"],i["Description"]))  
+                print(row_format.format(self.invis_format_match(i["InstanceId"]),self.color_ok_green(i["State"]),self.invis_format_match(i["ReasonCode"]),i["Description"]))  
                 
     def output_v2(self,answers,targets_health,healthy_host_count,unhealthy_host_count,tg_target_count):
 
@@ -116,8 +124,9 @@ class output_renderer:
         tg_sum = tg_target_count[tg_index]
         #tg_target_count = [5, 0, 7]
 
-        print(row_format.format('\033[1mTarget:Port\033[0m','\033[01mHealth Status\033[0m','\033[01mFailure Reason\033[0m'))
-        print(row_format.format("----------------------------------------","--------------------------------------------------","----------","----------"))
+        print(row_format.format(self.font_header_bold('Target:Port'),self.font_header_bold('Health Status'),self.font_header_bold('Failure Reason')))
+        print(row_format.format("----------------------------------------","--------------------------------------------------","------------------------------------------------------------"))
+        
         for i in targets_health["TargetHealthDescriptions"]:
             
             target_number+=1
@@ -126,7 +135,7 @@ class output_renderer:
                 tg_index+=1
                 tg_sum+=tg_target_count[tg_index]
 
-            target_port = "\033[0m"+i["Target"]["Id"]+":"+str(i["Target"]["Port"])+"\033[0m"
+            target_port = self.invis_format_match(i["Target"]["Id"]+":"+str(i["Target"]["Port"]))
             
             if i["TargetHealth"]["State"] == "healthy":
 
