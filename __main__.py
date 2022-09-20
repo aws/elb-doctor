@@ -16,7 +16,6 @@ def main():
 
     get_elb = GetElbs()
     api = ElbDoctorApi()
-    parse_elbs = ParseElbs()
 
     questions = [
         {
@@ -43,7 +42,7 @@ def main():
             'type': 'list',
             'name': 'elb',
             'message': 'Which CLB are you having issue with?',
-            'choices': parse_elbs.parse_clbs(get_elb.get_elb()),
+            'choices': api.retrieve_clbs,
             'when': lambda answers: answers['elb_type'] == 'classic'
         },
         {

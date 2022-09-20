@@ -4,14 +4,28 @@ from elb_doctor.lib.tgs.get_target_group import GetTargetGroup
 from elb_doctor.lib.tgs.parse_target_group import ParseTargetGroup
 from elb_doctor.lib.elb.get_elbs import GetElbs
 from elb_doctor.lib.elb.parse_elbs import ParseElbs
-
+from botocore.config import Config
 
 class ElbDoctorApi:
     """elb_doctor public api"""
 
-    def retrieve_clbs(self) -> Dict:
+    def retrieve_clbs(self,answers) -> Dict:
         """method to retrieve all classic load balancers"""
-        all_clbs = GetElbs().get_elb()
+        
+        if not answers['standard_regions']:
+            region = answers['other_regions']
+        else: region = answers['standard_regions']
+        
+        config = Config(
+            region_name = region,
+            signature_version = 'v4',
+            retries = {
+                'max_attempts': 10,
+                'mode': 'standard'
+            }
+        )
+
+        all_clbs = GetElbs().get_elb(config)
         parse_clb = ParseElbs.parse_clbs
         result = parse_clb(self, all_clbs)
 
@@ -35,13 +49,13 @@ class ElbDoctorApi:
 
         return result
 
-    def retrieve_clb_tg(self) -> Dict:
-        """method to retrieve all classic load balancer target groups"""
-        all_clbs = GetElbs().get_elb()
-        parse_clb = ParseElbs.parse_clbs
-        result = parse_clb(self, all_clbs)
+    # def retrieve_clb_tg(self) -> Dict:
+    #     """method to retrieve all classic load balancer target groups"""
+    #     all_clbs = GetElbs().get_elb()
+    #     parse_clb = ParseElbs.parse_clbs
+    #     result = parse_clb(self, all_clbs)
 
-        return result
+    #     return result
       
     def retrieve_target_groups(self, answers) -> List:
         """method to retrieve all target groups into a list of choices"""

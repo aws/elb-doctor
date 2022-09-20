@@ -6,10 +6,10 @@ import boto3
 class GetElbs:
     """ELB getter class"""
 
-    def get_elb(self) -> Dict:
+    def get_elb(self, config) -> Dict:
         """Retrieves CLB in the account"""
 
-        client = boto3.client('elb')
+        client = boto3.client('elb', config=config)
         response = client.describe_load_balancers()
 
         return response

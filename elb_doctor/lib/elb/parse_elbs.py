@@ -8,7 +8,7 @@ class ParseElbs:
         """Take ELB response and filter out only ALBs"""
 
         all_albs = []
-
+        
         try:
             for i in elb_response['LoadBalancers']:
                 if 'application' in i['Type']:
@@ -57,5 +57,10 @@ class ParseElbs:
         except KeyError as error_no_clbs:
             # reraise the error
             raise error_no_clbs
+
+        #the above try-except can't handle no CLB error
+        if not all_clbs:
+            print("There is no CLB in Account Region")
+            exit()
 
         return all_clbs
