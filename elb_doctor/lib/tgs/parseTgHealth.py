@@ -17,7 +17,7 @@ def parseTgHealth(answers,targets_health):
     elif answers['elb_type'] != 'classic':
         #elbv2 health counter
         for i in targets_health["TargetHealthDescriptions"]:
-            if i["TargetHealth"]["State"] != "healthy":   #treats anything that is not in healthy state as "unhealthy"? or maybe "not healthy"?
+            if i["TargetHealth"]["State"] == "unhealthy":
                 UnHealthyHostCount+=1 
                 
             elif i["TargetHealth"]["State"] == "healthy":
