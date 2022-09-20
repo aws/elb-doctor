@@ -25,7 +25,6 @@ def getTargetHealth(answers) -> Dict:
                 tg_target_count.append(len(temp['TargetHealthDescriptions']))
                 response['TargetHealthDescriptions'] = response['TargetHealthDescriptions']+temp['TargetHealthDescriptions']
 
-        print(response)
         return response,tg_target_count
         
 """
