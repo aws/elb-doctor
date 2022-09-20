@@ -22,4 +22,16 @@ def getTargetHealth(answers) -> Dict:
                 temp = client.describe_target_health(TargetGroupArn=i['tg_arn'])
                 tg_target_count.append(len(temp['TargetHealthDescriptions']))
                 response['TargetHealthDescriptions'] = response['TargetHealthDescriptions']+temp['TargetHealthDescriptions']
+
         return response,tg_target_count
+        
+"""
+{
+    'TargetHealthDescriptions': [
+                                {tg1-target1},{tg1-target2},
+                                {tg2-target1},
+                                {tg3-target1},{tg3-target2},{tg3-target3}
+                                ],
+    'ResponseMetadata': {...}
+}
+"""
