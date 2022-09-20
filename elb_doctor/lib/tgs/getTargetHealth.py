@@ -1,3 +1,4 @@
+from ast import AsyncFunctionDef
 from re import T
 from typing import Dict
 import boto3
@@ -18,8 +19,22 @@ def getTargetHealth(answers) -> Dict:
             if 'response' not in locals(): 
                 response = client.describe_target_health(TargetGroupArn=i['tg_arn'])
                 tg_target_count.append(len(response['TargetHealthDescriptions']))
+            #if there are multiple TGs or all TGs selected, keep appending the target health response
             else:
                 temp = client.describe_target_health(TargetGroupArn=i['tg_arn'])
                 tg_target_count.append(len(temp['TargetHealthDescriptions']))
                 response['TargetHealthDescriptions'] = response['TargetHealthDescriptions']+temp['TargetHealthDescriptions']
+
+        print(response)
         return response,tg_target_count
+        
+"""
+{
+    'TargetHealthDescriptions': [
+                                {tg1-target1},{tg1-target2},
+                                {tg2-target1},
+                                {tg3-target1},{tg3-target2},{tg3-target3}
+                                ],
+    'ResponseMetadata': {...}
+}
+"""
