@@ -6,12 +6,14 @@ from elb_doctor.lib.elb.get_elbs import GetElbs
 from elb_doctor.lib.elb.parse_elbs import ParseElbs
 from botocore.config import Config
 
+
 class ElbDoctorApi:
     """elb_doctor public api"""
 
     def retrieve_clbs(self,answers) -> Dict:
         """method to retrieve all classic load balancers"""
-        
+        if(answers['elb_type'] != 'classic'): return    #prevent invocation if CLB is not selected
+
         if not answers['standard_regions']:
             region = answers['other_regions']
         else: region = answers['standard_regions']
@@ -49,6 +51,16 @@ class ElbDoctorApi:
 
         return result
 
+    #just a warpper
+    def retrieve_elbv2(self, answers) -> List[Dict]:
+        """method to retrieve all v2 elastic load balancers"""
+
+        all_elbv2 = GetElbs().get_elbv2()
+        result = ParseElbs.parse_elbv2(self, all_elbv2)
+
+        return result
+
+
     # def retrieve_clb_tg(self) -> Dict:
     #     """method to retrieve all classic load balancer target groups"""
     #     all_clbs = GetElbs().get_elb()
@@ -57,7 +69,7 @@ class ElbDoctorApi:
 
     #     return result
       
-    def retrieve_target_groups(self, answers) -> List:
+    def retrieve_target_groups(self, answers) -> List[Dict]:
         """method to retrieve all target groups into a list of choices"""
 
         if(answers['elb_type'] == 'classic'): return    #prevent invocation if CLB is selected

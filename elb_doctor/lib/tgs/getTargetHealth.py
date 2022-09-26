@@ -21,9 +21,19 @@ def getTargetHealth(answers) -> Dict:
 
     tg_target_count = []   #for all tg   ---> won't work if need to filter healthy targets
     if answers['elb_type'] == 'classic':
-
+        
         client = boto3.client('elb',config=config)
         response = client.describe_instance_health(LoadBalancerName=answers['elb'])
+        try: 
+            response["InstanceStates"][0]
+        except KeyError as error_no_targets:
+            # reraise the error
+            raise error_no_targets
+        except IndexError as error_no_targets:
+            # reraise the error
+            print("\033[91mError: There is no registered targets.\033[0m")
+            raise error_no_targets 
+
         return response,tg_target_count
 
     else: 

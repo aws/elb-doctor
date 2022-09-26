@@ -47,6 +47,8 @@ class ParseElbs:
         all_clbs = []
 
         try:
+            #to check if there is any CLB is the returned list, otherwise KeyError won't catch it
+            elb_response['LoadBalancerDescriptions'][0] 
             for i in elb_response['LoadBalancerDescriptions']:
                 # LoadBalancerName is equivalent to ARN for classic elb
                 all_clbs.append({
@@ -57,10 +59,45 @@ class ParseElbs:
         except KeyError as error_no_clbs:
             # reraise the error
             raise error_no_clbs
-
-        #the above try-except can't handle no CLB error
-        if not all_clbs:
-            print("There is no CLB in Account Region")
-            exit()
+        except IndexError as error_no_clbs:
+            # reraise the error
+            print("\033[91mError: There is no CLB in this region/account.\033[0m")
+            raise error_no_clbs
 
         return all_clbs
+
+    #combine parseELBs.py module here for now
+    def parse_elbv2(self, elb_response) -> List[Dict]:
+        """Take ELB response and return LoadBalancerName LoadBalancerArn"""
+        
+        all_elbs = {}         #this dict can be eliminated to reduce a for loop, populate choices list and return
+        choices = [] 
+        
+        try:
+            #parse ALB,NLB and GWLB response from  boto3.client('elbv2')
+            if 'LoadBalancers' in elb_response:
+                for i in elb_response['LoadBalancers']:
+                    all_elbs[i['LoadBalancerName']] = i['LoadBalancerArn']
+
+                for name,arn in all_elbs.items(): 
+                    choices.append({
+                        'name': name,
+                        'value': arn 
+                    })
+            
+            #added support for CLB in boto3.client('elb'), 'LoadBalancerName' is equivalent to ARN for CLB 
+            elif 'LoadBalancerDescriptions' in elb_response:               
+                for i in elb_response['LoadBalancerDescriptions']:
+                    all_elbs[i['LoadBalancerName']] = i['LoadBalancerName']
+
+                for name,arn in all_elbs.items(): 
+                    choices.append({
+                        'name': name,
+                        'value': arn     #arn == name
+                    })
+
+        except KeyError as error_no_elbs:
+            # reraise the error
+            raise error_no_elbs
+
+        return choices
