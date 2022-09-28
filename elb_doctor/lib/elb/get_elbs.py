@@ -14,10 +14,10 @@ class GetElbs:
 
         return response
 
-    def get_elbv2(self) -> Dict:
+    def get_elbv2(self, config) -> Dict:
         """Retrieves ALB, NLB, GWLB in the account"""
 
-        client = boto3.client('elbv2')
+        client = boto3.client('elbv2', config=config)
         response = client.describe_load_balancers()
 
         return response

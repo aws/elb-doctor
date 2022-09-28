@@ -47,7 +47,7 @@ class ParseElbs:
         all_clbs = []
 
         try:
-            #to check if there is any CLB is the returned list, otherwise KeyError won't catch it
+            #to check if there is any CLB in the returned list, otherwise KeyError won't catch it
             elb_response['LoadBalancerDescriptions'][0] 
             for i in elb_response['LoadBalancerDescriptions']:
                 # LoadBalancerName is equivalent to ARN for classic elb
@@ -74,6 +74,7 @@ class ParseElbs:
         choices = [] 
         
         try:
+            elb_response['LoadBalancers'][0] 
             #parse ALB,NLB and GWLB response from  boto3.client('elbv2')
             if 'LoadBalancers' in elb_response:
                 for i in elb_response['LoadBalancers']:
@@ -95,9 +96,12 @@ class ParseElbs:
                         'name': name,
                         'value': arn     #arn == name
                     })
-
         except KeyError as error_no_elbs:
             # reraise the error
             raise error_no_elbs
+        except IndexError as error_no_clbs:
+            # reraise the error
+            print("\033[91mError: There is no ELBv2 in this region/account.\033[0m")
+            raise error_no_clbs
 
         return choices

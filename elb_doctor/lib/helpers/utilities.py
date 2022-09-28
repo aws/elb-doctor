@@ -126,7 +126,11 @@ class output_renderer:
                 tg_index+=1
                 tg_sum+=tg_target_count[tg_index]
 
-            target_port = "\033[0m"+i["Target"]["Id"]+":"+str(i["Target"]["Port"])+"\033[0m"
+            #Lambda target is different and needs to be handeled seperatly
+            if 'port' in i["Target"]: 
+                target_port = "\033[0m"+i["Target"]["Id"]+":"+str(i["Target"]["Port"])+"\033[0m"
+            else: 
+                target_port = "\033[0m"+i["Target"]["Id"]
             
             if i["TargetHealth"]["State"] == "healthy":
 
@@ -149,4 +153,4 @@ class output_renderer:
                 print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]), i["TargetHealth"]["Reason"]+i["TargetHealth"]["Description"]+"FAILED to respond to Health Check within the allowed timeout"))
 
             else:
-                print(row_format.format(i["Target"]["Id"]+":"+str(i["Target"]["Port"]), self.color_fail_red(i["TargetHealth"]["State"]),i["TargetHealth"]["Reason"],i["TargetHealth"]["Description"]))
+                print(row_format.format(target_port, self.color_fail_red(i["TargetHealth"]["State"]),i["TargetHealth"]["Reason"],i["TargetHealth"]["Description"]))

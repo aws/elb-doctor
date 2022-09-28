@@ -37,7 +37,7 @@ def getTargetHealth(answers) -> Dict:
         return response,tg_target_count
 
     else: 
-        client = boto3.client('elbv2')
+        client = boto3.client('elbv2',config=config)
         for i in answers['tg']:
             if 'response' not in locals(): 
                 response = client.describe_target_health(TargetGroupArn=i['tg_arn'])

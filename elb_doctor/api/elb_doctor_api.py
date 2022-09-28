@@ -55,7 +55,22 @@ class ElbDoctorApi:
     def retrieve_elbv2(self, answers) -> List[Dict]:
         """method to retrieve all v2 elastic load balancers"""
 
-        all_elbv2 = GetElbs().get_elbv2()
+        if(answers['elb_type'] == 'classic'): return    #prevent invocation if CLB is selected
+
+        if not answers['standard_regions']:
+            region = answers['other_regions']
+        else: region = answers['standard_regions']
+        
+        config = Config(
+            region_name = region,
+            signature_version = 'v4',
+            retries = {
+                'max_attempts': 10,
+                'mode': 'standard'
+            }
+        )
+
+        all_elbv2 = GetElbs().get_elbv2(config)
         result = ParseElbs.parse_elbv2(self, all_elbv2)
 
         return result
@@ -74,9 +89,22 @@ class ElbDoctorApi:
 
         if(answers['elb_type'] == 'classic'): return    #prevent invocation if CLB is selected
 
+        if not answers['standard_regions']:
+            region = answers['other_regions']
+        else: region = answers['standard_regions']
+        
+        config = Config(
+            region_name = region,
+            signature_version = 'v4',
+            retries = {
+                'max_attempts': 10,
+                'mode': 'standard'
+            }
+        )
+
         get_target_group = GetTargetGroup()
         parse_target_group = ParseTargetGroup()
 
-        result = parse_target_group.parse_target_group(get_target_group.get_elbv2_tg(answers))
+        result = parse_target_group.parse_target_group(get_target_group.get_elbv2_tg(answers, config))
 
         return result
