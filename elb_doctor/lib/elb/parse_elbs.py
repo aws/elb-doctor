@@ -67,7 +67,7 @@ class ParseElbs:
         return all_clbs
 
     #combine parseELBs.py module here for now
-    def parse_elbv2(self, elb_response) -> List[Dict]:
+    def parse_elbv2(self, elb_response, answers) -> List[Dict]:
         """Take ELB response and return LoadBalancerName LoadBalancerArn"""
         
         all_elbs = {}         #this dict can be eliminated to reduce a for loop, populate choices list and return
@@ -78,7 +78,8 @@ class ParseElbs:
             #parse ALB,NLB and GWLB response from  boto3.client('elbv2')
             if 'LoadBalancers' in elb_response:
                 for i in elb_response['LoadBalancers']:
-                    all_elbs[i['LoadBalancerName']] = i['LoadBalancerArn']
+                    if i['Type'] == answers['elb_type']: 
+                        all_elbs[i['LoadBalancerName']] = i['LoadBalancerArn']
 
                 for name,arn in all_elbs.items(): 
                     choices.append({

@@ -50,7 +50,21 @@ def main():
             'name': 'elb',
             'message': 'Which ALB are you having issue with?',
             'choices': api.retrieve_elbv2,                   #currently there is no better way to call parse_elbs.parse_albs, parse_elbs.parse_nlbs or parse_elbs.parse_gwlbs other than duplicating this question 3 times and use 'when' to control which one to display. get_elbv2 call will also be duplicated as well.
-            'when': lambda answers: answers['elb_type'] != 'classic'
+            'when': lambda answers: answers['elb_type'] == 'application'
+        },
+        {
+            'type': 'list',
+            'name': 'elb',
+            'message': 'Which NLB are you having issue with?',
+            'choices': api.retrieve_elbv2,                   #currently there is no better way to call parse_elbs.parse_albs, parse_elbs.parse_nlbs or parse_elbs.parse_gwlbs other than duplicating this question 3 times and use 'when' to control which one to display. get_elbv2 call will also be duplicated as well.
+            'when': lambda answers: answers['elb_type'] == 'network'
+        },
+        {
+            'type': 'list',
+            'name': 'elb',
+            'message': 'Which GWLB are you having issue with?',
+            'choices': api.retrieve_elbv2,                   #currently there is no better way to call parse_elbs.parse_albs, parse_elbs.parse_nlbs or parse_elbs.parse_gwlbs other than duplicating this question 3 times and use 'when' to control which one to display. get_elbv2 call will also be duplicated as well.
+            'when': lambda answers: answers['elb_type'] == 'gateway'
         },
         {
             'type': 'list',

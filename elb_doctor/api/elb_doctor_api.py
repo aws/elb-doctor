@@ -71,7 +71,7 @@ class ElbDoctorApi:
         )
 
         all_elbv2 = GetElbs().get_elbv2(config)
-        result = ParseElbs.parse_elbv2(self, all_elbv2)
+        result = ParseElbs.parse_elbv2(self, all_elbv2, answers)
 
         return result
 

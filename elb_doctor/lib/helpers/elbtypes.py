@@ -12,11 +12,11 @@ elb_types = [
     {
         'name':'Network Load Balancer(NLB)',
         'value':'network',
-        'disabled':'unsupported'
+        'disabled':False
     },
     {
         'name':'Gateway Load Balancer(GWLB)',
         'value':'gateway',
-        'disabled':'unsupported'
+        'disabled':False
     }
 ]
