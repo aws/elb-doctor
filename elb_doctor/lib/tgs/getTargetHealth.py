@@ -42,6 +42,7 @@ def getTargetHealth(answers) -> Dict:
             if 'response' not in locals(): 
                 response = client.describe_target_health(TargetGroupArn=i['tg_arn'])
                 tg_target_count.append(len(response['TargetHealthDescriptions']))
+            #if there are multiple TGs or all TGs selected, keep appending the target health response
             else:
                 temp = client.describe_target_health(TargetGroupArn=i['tg_arn'])
                 tg_target_count.append(len(temp['TargetHealthDescriptions']))
