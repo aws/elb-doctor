@@ -13,9 +13,9 @@ from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 
 def main():
 
-    get_elb = GetElbs()
+    # get_elb = GetElbs()
     api = ElbDoctorApi()
-    parse_elbs = ParseElbs()
+    # parse_elbs = ParseElbs()
 
     questions = [
         {
@@ -86,6 +86,9 @@ def main():
         renderer.output_v1(targets_health,healthy_host_count,unhealthy_host_count)
     elif answers['elb_type'] != 'classic':
         renderer.output_v2(answers,targets_health,healthy_host_count,unhealthy_host_count,tg_target_count)
+
+def hello():
+    print("hello world")
 
 if __name__ == "__main__":
     main()
