@@ -87,8 +87,5 @@ def main():
     elif answers['elb_type'] != 'classic':
         renderer.output_v2(answers,targets_health,healthy_host_count,unhealthy_host_count,tg_target_count)
 
-def hello():
-    print("hello world")
-
 if __name__ == "__main__":
     main()

@@ -62,14 +62,14 @@ https://github.com/magmax/python-inquirer/issues/122
       ---------------
     > Search/Input ELB Arn: 
   ```
-- enable support for NLB and GWLB(it's currently returned under ALB option, needs to apply filter at API level or locally)
+- enable support for NLB and GWLB(it's currently returned under ALB option, needs to apply filter at API level or locally)✅
 
 --> **Display ELB target health status** ✅
 - Display by each individual Target Group ✅
 - Enriched failure reasons, i.e. 
-  "Health checks failed with these codes: [400]" + because you configured to accept Success codes: [200-399]
+  "Health checks failed with these codes: [400]" + because you configured to accept Success codes: [200-399] ✅
 
-- Display by aggregated Target Groups
+- Display by aggregated Target Groups ✅
   ```
   ? Which TG/backend are you having issue with?
     target-group-1
