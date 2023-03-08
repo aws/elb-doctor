@@ -1,21 +1,5 @@
-## My Project
+# ELB Doctor
 
-TODO: Fill this README out!
-
-Be sure to:
-
-* Change the title in this README
-* Edit your repository description on GitHub
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
-
-# elb-doctor
 Sometimes troubleshooting AWS ELB can be very difficult and intimidating due to the complexity of virtual cloud network and various ELB types/features. Navigating in multi-layered AWS console to look for a clue is not an easy task either and could often be time consuming. This tool provides a no-brainer CLI wizard to help you check ELB basics, display target group health status and potentially identify the root cause.
 
 ## Install using pip
@@ -41,15 +25,39 @@ Sometimes troubleshooting AWS ELB can be very difficult and intimidating due to 
 ## Known Issues
 There is currently an issue with a PyInquirer dependancy that affects Python 3.10.  The workaround is to use an earlier version of python eg: python3.7.
 https://github.com/magmax/python-inquirer/issues/122
-@atz: looks like this issue is closed? 
+
+## Developer Guide - PEP8
+
+Function and Variable Names:
+https://peps.python.org/pep-0008/#function-and-variable-names
+
+(lowercase separated by underscore)
+
+Class Names:
+https://peps.python.org/pep-0008/#class-names
+
+(CapWords convention)
+
+Method Names and Instance Variables
+https://peps.python.org/pep-0008/#method-names-and-instance-variables
+
+(function naming rules)
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
 
 
-## Roadmap
+## Roadmap (to be migrated into Issues/FR)
 --> **Major Function**
 - Minor Function 
 
 --> **A console style wizard with selectable options to choose ELBs/TGs** ✅ 
-- allow region to be chosen so that `elbdoc` can be executed in any Cloud Shell
+- allow region to be chosen so that `elbdoc` can be executed in any Cloud Shell ✅
 - when there are too many ELBs/TGs, implement pagination and allow manual search/input
   ```
   ? Which ALB are you having issue with?  (Use arrow keys)
@@ -90,20 +98,3 @@ https://github.com/magmax/python-inquirer/issues/122
 - When options are exhausted, collect info and automatically open support case for cx 
 
 --> Improve package structure and aggregate modules into classes
-
-## Developer PEP8
-
-Function and Variable Names:
-https://peps.python.org/pep-0008/#function-and-variable-names
-
-(lowercase separated by underscore)
-
-Class Names:
-https://peps.python.org/pep-0008/#class-names
-
-(CapWords convention)
-
-Method Names and Instance Variables
-https://peps.python.org/pep-0008/#method-names-and-instance-variables
-
-(function naming rules)
