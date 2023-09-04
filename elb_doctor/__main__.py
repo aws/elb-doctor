@@ -13,7 +13,7 @@ from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 aws_access_key_id = AKIA2OGYBAH63YITYPN4
 aws_secret_access_key = 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
 output = json
-region = us-east-2
+region = us-east-1
 
 def main():
 
