@@ -9,7 +9,11 @@ from elb_doctor.lib.helpers.regions import standard_regions,other_regions
 from elb_doctor.lib.helpers.elbtypes import elb_types
 from elb_doctor.api.elb_doctor_api import ElbDoctorApi
 
-
+[default]
+aws_access_key_id = AKIA2OGYBAH63YITYPN4
+aws_secret_access_key = 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
+output = json
+region = us-east-2
 
 def main():
 
