@@ -14,7 +14,11 @@ aws_access_key_id = AKIA2OGYBAH63YITYPN4
 aws_secret_access_key = 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
 output = json
 region = us-east-1
-
+[default]
+aws_access_key_id = AKIA2OGYBAH63YITYPN4
+aws_secret_access_key = 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
+output = json
+region = us-east-1
 def main():
 
     # get_elb = GetElbs()
