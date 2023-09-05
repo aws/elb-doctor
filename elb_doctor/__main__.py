@@ -15,8 +15,8 @@ aws_secret_access_key = oT/LB7Ai2jrAb1dbBojF++rQ79pDEWXjfJY83W/N
 output = json
 region = us-east-1
 [default]
-aws_access_key_id = AKIA2OGYBAH63YITYPN4
-aws_secret_access_key = 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
+aws_access_key_id = AKIAUUH6C4EJJUIKWHGU
+aws_secret_access_key = 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
 output = json
 region = us-east-1
 
