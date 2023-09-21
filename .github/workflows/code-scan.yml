@@ -38,7 +38,6 @@ jobs:
 
   bandit-security-scan:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4.0.0
@@ -50,3 +49,20 @@ jobs:
         path: "."
         level: high
         confidence: high
+
+  safety-dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.0.0
+  
+    - name: Set up Python
+      uses: actions/setup-python@v4.7.0
+      with:
+        python-version: 3.7
+  
+    - name: Install Safety
+      run: pip install safety
+  
+    - name: Run Safety Check
+      run: safety check --full-report
