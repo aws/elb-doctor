@@ -66,3 +66,17 @@ jobs:
   
     - name: Run Safety Check
       run: safety check --full-report
+
+  pylint-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.0.0
+    - name: Set up Python
+      uses: actions/setup-python@v4.7.0
+      with:
+        python-version: 3.7
+    - name: Install Pylint
+      run: pip install pylint
+    - name: Run Pylint
+      run: pylint **/*.py
