@@ -3,10 +3,10 @@ name: Code Scan
 on:
   push:
     branches-ignore:
-      - 'main'
+      - main
   pull_request:
     branches:
-      - 'main'
+      - main
 
 permissions:
   contents: read
