@@ -1,8 +1,9 @@
 name: Code Scan
 
 on:
-  push:
   pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -38,15 +39,56 @@ jobs:
 
   bandit-security-scan:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4.0.0
 
+    - name: Set up Python
+      uses: actions/setup-python@v4.7.0
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Install Bandit
+      run: pip install bandit
+      
     - name: Run Bandit scan
-      uses: mdegis/bandit-action@v1.0.1
-      with: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        path: "."
-        level: high
-        confidence: high
+      run: bandit -r . -lll -iii
+
+  safety-dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.0.0
+  
+    - name: Set up Python
+      uses: actions/setup-python@v4.7.0
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        
+    - name: Install Safety
+      run: pip install safety
+  
+    - name: Run Safety Check
+      run: safety check --full-report
+
+  pylint-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.0.0
+    - name: Set up Python
+      uses: actions/setup-python@v4.7.0
+      with:
+        python-version: 3.7
+    - name: Install Pylint
+      run: pip install pylint
+    - name: Run Pylint
+      run: pylint **/*.py
