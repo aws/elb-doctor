@@ -44,20 +44,16 @@ jobs:
       uses: actions/checkout@v4.0.0
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4.7.0
       with:
         python-version: 3.7
 
     - name: Install Bandit
       run: pip install bandit
-
+      
     - name: Run Bandit scan
-      uses: mdegis/bandit-action@v1.0.1
-      with: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        path: "."
-        level: high
-        confidence: high
+      run: bandit -r . --confidence high --severity high
+      
 
   safety-dependency-check:
     runs-on: ubuntu-latest
