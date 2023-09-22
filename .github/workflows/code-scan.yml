@@ -52,7 +52,12 @@ jobs:
       run: pip install bandit
 
     - name: Run Bandit scan
-      run: bandit -r . --confidence high --severity high
+      uses: mdegis/bandit-action@v1.0.1
+      with: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        path: "."
+        level: high
+        confidence: high
 
   safety-dependency-check:
     runs-on: ubuntu-latest
