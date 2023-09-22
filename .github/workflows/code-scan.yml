@@ -52,7 +52,7 @@ jobs:
       run: pip install bandit
       
     - name: Run Bandit scan
-      run: bandit -r . --confidence high --severity high
+      run: bandit -r . -lll -iii
       
 
   safety-dependency-check:
