@@ -48,12 +48,15 @@ jobs:
       with:
         python-version: 3.7
 
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
     - name: Install Bandit
       run: pip install bandit
       
     - name: Run Bandit scan
       run: bandit -r . -lll -iii
-      
 
   safety-dependency-check:
     runs-on: ubuntu-latest
