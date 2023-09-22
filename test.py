@@ -1,9 +1,13 @@
-import os
+# Fake credentials for testing purposes
+DATABASE_CONFIG = {
+    'user': 'fake_user',
+    'password': 's3cr3tP@ssw0rd!234',  # A high entropy string
+    'host': 'localhost',
+    'port': 5432,
+    'dbname': 'testdb'
+}
 
-def insecure_code(user_input):
-    # Insecure use of os.system() which can lead to command injection
-    os.system(user_input)
-
-if __name__ == "__main__":
-    command = input("Please enter a command to execute: ")
-    insecure_code(command)
+AWS_CREDENTIALS = {
+    'AWS_ACCESS_KEY_ID': 'AKIAXXXXXXXXXXXXXXXX',
+    'AWS_SECRET_ACCESS_KEY': 'aJcXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+}
