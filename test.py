@@ -1,13 +1,34 @@
-# Fake credentials for testing purposes
-DATABASE_CONFIG = {
-    'user': 'fake_user',
-    'password': 's3cr3tP@ssw0rd!234',  # A high entropy string
-    'host': 'localhost',
-    'port': 5432,
-    'dbname': 'testdb'
-}
+# Fake AWS credentials
+AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE"
+AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
-AWS_CREDENTIALS = {
-    'AWS_ACCESS_KEY_ID': 'AKIAXXXXXXXXXXXXXXXX',
-    'AWS_SECRET_ACCESS_KEY': 'aJcXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-}
+# Fake database URI with credentials
+DATABASE_URL = "postgresql://user:password@localhost/dbname"
+
+# Fake RSA private key
+FAKE_PRIVATE_KEY = """
+-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfX
+J/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusDTDAd3G1uHZRcmO6WG6IF9xnyM1h
+yL35aGXTYs63SkbWaPbZcTc7I7N3/VfObQ6DSuSvVbNxakIkEvb2hz4GTo/9wIDAQ
+ABAoGAFijko56+qGyN8M0RVyaRAXz++xTqHBLh3tx4VgMtrQ+WE+Qzp9v324nrfP
+VmmCu4Zf2HvPLz5R5t3LjPVfPNSz+OwBxAdweL3riYO8R7ZZlp8mAYAWM5w07Xsb
+ZVV9q8ZEn2/U0K8srr5x21aTlB3sdDfs8HLiKU5d8mC5hx0dbJKZABEBAAG0BnNl
+cGtpZXKCAQEA7ZJu7bfo8xusAgGaPevH+zlM3SOsInMFPa+oNBOBBO3zYv384HTp
+ZCwY0NNaMikyDAeSbfC5kJEe8HhFxb8RdnDRjhrzZgZt8t8OAad7Tbux4zIlvFha
+g2cF3p3t56zTq/kLx7vnF6MoFIhF6RoxVqXO7JhKR8PHghuJXxQPffy/UeM3r0yP
+5hGwJ0DgCSvC26JVgJGBe8HFNg4X6NxfqHv8OslwZFSBfkL35jtDVy8WJ3s+VxAa
+r8ZBPPYPYxHrxpDl1X0a9lJcsTTTlCGtUnNZV9zTs1otDqxDHW7/na7E8UfACgft
+x2DiFfLpX3fliZ9TqWZCH7Cg5KjljgJSAQJBAKwIRW2I0rn3rmotXE64ZxTq4yt4
+D0fJM7Rkt0fMwy6TJwMBMGHysKEikdlhFPR65hf9uHOM3eaIgA/1jm3f3LUCQQDL
+QPA4vZZe8GkYS2KpwJN14Cii0XWczw5Bra6lIo9C14Ubxt4aIx3NfvbyLK9v3vtm
+60jDFTpC1CsyvRA6R2jAFA8xAkA6C/oIbdoTy5v0SY4BYpvb8LKeIdH4GhltBloN
+e5HI5een6l9w1YGUjqI3i59I16XyITF92pYPCA9WhsnQHtDQ7QTBAkEAiU+t7VnJ
+mss9KzkJb2IDJL9483LQW0suZw/oHKPXdN6R7A47m+kTTh4uh3Gs4Jqb7NQMZJri
+ZcUOZW6DD3S/AgFEQQJABoCQXKZkvH9o8Z2hFGBY5BJGV5JXuwAqg1DXidGxGeDm
+Zjm8EmCU8Ij2ZyJzNaFgBY5dG1lS9wOFyWnDewcUJg==
+-----END RSA PRIVATE KEY-----
+"""
+
+# Fake JWT secret
+JWT_SECRET = "this_is_a_super_secret_key_for_jwt"
