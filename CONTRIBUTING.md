@@ -39,7 +39,7 @@ The list below outlines the guidelines for submitting pull requests. Internal co
 
 
 ### Prerequisite
-As required by our security team, it's essential to install [git-secretes](https://github.com/awslabs/git-secrets) in your development environment. 
+As required by our security team, it's essential to install [git-secrets](https://github.com/awslabs/git-secrets) in your development environment. 
 This prevents the inadvertent committing of credentials into the repository. Please follow the instructions [here](https://github.com/awslabs/git-secrets#installing-git-secrets) to install git-secretes.
 If you have concerns regarding its requirement, kindly consult the maintainers. 
 
