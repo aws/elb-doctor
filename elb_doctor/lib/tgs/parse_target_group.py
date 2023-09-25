@@ -12,52 +12,29 @@ class ParseTargetGroup:
         
         try:
             for i in tgs['TargetGroups']:
-                    #if matcher is configured, success code needs to be carried on in the choice
-                    if 'Matcher' in i:      
-                        choices.append({
-                            'name': i['TargetGroupName'],
-                            'value': [
-                                {
-                                'tg_arn': i['TargetGroupArn'],
-                                'success_codes': i['Matcher']['HttpCode'],
-                                'hc_timeout': i['HealthCheckTimeoutSeconds']
-                                }
-                            ]
-                        })
-                        all_tgs.append(choices[-1]['value'][0])
-                    else: 
-                        choices.append({
-                            'name': i['TargetGroupName'],
-                            'value': [
-                                {
-                                'tg_arn': i["TargetGroupArn"],
-                                'hc_timeout': i['HealthCheckTimeoutSeconds']
-                                }
-                            ] 
-                        })
-                        all_tgs.append(choices[-1]['value'][0])
-        
-        except KeyError:
-            print("There is a KeyError happened")
-            if 'Matcher' in i:      
-                    choices.append({
-                        'name': i['TargetGroupName'],
-                        'value': [
-                            {
-                            'tg_arn': i['TargetGroupArn'],
-                            'success_codes': i['Matcher']['GrpcCode'],
-                            'hc_timeout': i['HealthCheckTimeoutSeconds']
-                            }
-                        ]
-                    })
-                    all_tgs.append(choices[-1]['value'][0])
+                matcher = i.get('Matcher', {})  # Use get to avoid KeyError
+                # Check if 'HttpCode' or 'GrpcCode' exists in 'Matcher'
+                http_code = matcher.get('HttpCode')
+                grpc_code = matcher.get('GrpcCode')
+                tg_arn = i.get('TargetGroupArn')
+                tg_name = i.get('TargetGroupName')
+                hc_timeout = i.get('HealthCheckTimeoutSeconds')
 
+                value = [{'tg_arn': tg_arn, 'hc_timeout': hc_timeout}]
 
-        #append all target groups as an option in the end with the TgArns
+                # Append success_codes based on availability
+                if http_code:
+                    value[0]['success_codes'] = http_code
+                elif grpc_code:
+                    value[0]['success_codes'] = grpc_code
+                
+                choices.append({'name': tg_name, 'value': value})
+                all_tgs.append(value[0])
+
+        except KeyError as e:
+            print(f"There is a KeyError happened: {e}")
+
         choices.append(Separator())
-        choices.append({
-            'name': 'all target groups',
-            'value': all_tgs
-        })
-    
+        choices.append({'name': 'all target groups', 'value': all_tgs})
+
         return choices
