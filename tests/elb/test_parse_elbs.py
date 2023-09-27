@@ -14,14 +14,14 @@ class TestParseElbs(unittest.TestCase):
         elb_response = {"LoadBalancers": [
             {
                 "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                                   "858918832707:loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456",
-                "DNSName": "nlb-elb-easy-test-7a79cd99dbd10456.elb.ap-southeast-2"
+                                   "111111111111:loadbalancer/net/nlb-elb-test/11111111111111111111",
+                "DNSName": "nlb-elb-test-11111111111111111111.elb.ap-southeast-2"
                            ".amazonaws.com",
-                "CanonicalHostedZoneId": "ZCT6FZBF4DROD",
+                "CanonicalHostedZoneId": "ZZZZZZZZZZZZZ",
                 "CreatedTime": "2022-05-31T22:35:45.032000+00:00",
-                "LoadBalancerName": "nlb-elb-easy-test",
+                "LoadBalancerName": "nlb-elb-test",
                 "Scheme": "internet-facing",
-                "VpcId": "vpc-9e6a97f8",
+                "VpcId": "vpc-99999999",
                 "State": {
                     "Code": "active"
                 },
@@ -29,12 +29,12 @@ class TestParseElbs(unittest.TestCase):
                 "AvailabilityZones": [
                     {
                         "ZoneName": "ap-southeast-2b",
-                        "SubnetId": "subnet-29c51361",
+                        "SubnetId": "subnet-11111111",
                         "LoadBalancerAddresses": []
                     },
                     {
                         "ZoneName": "ap-southeast-2c",
-                        "SubnetId": "subnet-81efbbd9",
+                        "SubnetId": "subnet-22222222",
                         "LoadBalancerAddresses": []
                     }
                 ],
@@ -43,8 +43,8 @@ class TestParseElbs(unittest.TestCase):
 
         parse_nlbs = self.parse_elbs.parse_nlbs(elb_response)
 
-        output = [{"name": "nlb-elb-easy-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:858918832707:"
-                                       "loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456"}]
+        output = [{"name": "nlb-elb-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:111111111111:"
+                                       "loadbalancer/net/nlb-elb-test/11111111111111111111"}]
 
         self.assertEqual(parse_nlbs, output)
 
@@ -52,14 +52,14 @@ class TestParseElbs(unittest.TestCase):
         elb_response = {"LoadBalancers": [
             {
                 "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                                   "858918832707:loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456",
-                "DNSName": "nlb-elb-easy-test-7a79cd99dbd10456.elb.ap-southeast-"
+                                   "111111111111:loadbalancer/net/nlb-elb-test/11111111111111111111",
+                "DNSName": "nlb-elb-test-11111111111111111111.elb.ap-southeast-"
                            "2.amazonaws.com",
-                "CanonicalHostedZoneId": "ZCT6FZBF4DROD",
+                "CanonicalHostedZoneId": "ZZZZZZZZZZZZZ",
                 "CreatedTime": "2022-05-31T22:35:45.032000+00:00",
-                "LoadBalancerName": "nlb-elb-easy-test",
+                "LoadBalancerName": "nlb-elb-test",
                 "Scheme": "internet-facing",
-                "VpcId": "vpc-9e6a97f8",
+                "VpcId": "vpc-99999999",
                 "State": {
                     "Code": "active"
                 },
@@ -67,12 +67,12 @@ class TestParseElbs(unittest.TestCase):
                 "AvailabilityZones": [
                     {
                         "ZoneName": "ap-southeast-2b",
-                        "SubnetId": "subnet-29c51361",
+                        "SubnetId": "subnet-11111111",
                         "LoadBalancerAddresses": []
                     },
                     {
                         "ZoneName": "ap-southeast-2c",
-                        "SubnetId": "subnet-81efbbd9",
+                        "SubnetId": "subnet-22222222",
                         "LoadBalancerAddresses": []
                     }
                 ],
@@ -80,13 +80,13 @@ class TestParseElbs(unittest.TestCase):
             },
             {
                 "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                                   "858918832707:loadbalancer/app/elb-lab/3d427508418606ed",
-                "DNSName": "elb-lab-308521398.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneId": "Z1GM3OXH4ZPM65",
+                                   "111111111111:loadbalancer/app/elb-test/bbbbbbbbbbbbbbbb",
+                "DNSName": "elb-test-999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneId": "CCCCCCCCCCCCCC",
                 "CreatedTime": "2021-09-22T04:51:31.830000+00:00",
-                "LoadBalancerName": "elb-lab",
+                "LoadBalancerName": "elb-test",
                 "Scheme": "internet-facing",
-                "VpcId": "vpc-9e6a97f8",
+                "VpcId": "vpc-99999999",
                 "State": {
                     "Code": "active"
                 },
@@ -94,25 +94,25 @@ class TestParseElbs(unittest.TestCase):
                 "AvailabilityZones": [
                     {
                         "ZoneName": "ap-southeast-2b",
-                        "SubnetId": "subnet-29c51361",
+                        "SubnetId": "subnet-11111111",
                         "LoadBalancerAddresses": []
                     },
                     {
                         "ZoneName": "ap-southeast-2c",
-                        "SubnetId": "subnet-81efbbd9",
+                        "SubnetId": "subnet-22222222",
                         "LoadBalancerAddresses": []
                     }
                 ],
                 "SecurityGroups": [
-                    "sg-0a0af06a28acb36eb"
+                    "sg-xx1xx1xx1xx1xx1xx1x"
                 ],
                 "IpAddressType": "ipv4"
             }]}
 
         parse_nlbs = self.parse_elbs.parse_nlbs(elb_response)
 
-        output = [{"name": "nlb-elb-easy-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:858918832707:"
-                                       "loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456"}]
+        output = [{"name": "nlb-elb-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:111111111111:"
+                                       "loadbalancer/net/nlb-elb-test/11111111111111111111"}]
 
         self.assertEqual(parse_nlbs, output)
 
@@ -126,13 +126,13 @@ class TestParseElbs(unittest.TestCase):
         elb_response = {"LoadBalancers": [
             {
                 "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                                   "858918832707:loadbalancer/app/elb-lab/3d427508418606ed",
-                "DNSName": "elb-lab-308521398.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneId": "Z1GM3OXH4ZPM65",
+                                   "111111111111:loadbalancer/app/elb-test/bbbbbbbbbbbbbbbb",
+                "DNSName": "elb-test-999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneId": "CCCCCCCCCCCCCC",
                 "CreatedTime": "2021-09-22T04:51:31.830000+00:00",
-                "LoadBalancerName": "elb-lab",
+                "LoadBalancerName": "elb-test",
                 "Scheme": "internet-facing",
-                "VpcId": "vpc-9e6a97f8",
+                "VpcId": "vpc-99999999",
                 "State": {
                     "Code": "active"
                 },
@@ -140,25 +140,25 @@ class TestParseElbs(unittest.TestCase):
                 "AvailabilityZones": [
                     {
                         "ZoneName": "ap-southeast-2b",
-                        "SubnetId": "subnet-29c51361",
+                        "SubnetId": "subnet-11111111",
                         "LoadBalancerAddresses": []
                     },
                     {
                         "ZoneName": "ap-southeast-2c",
-                        "SubnetId": "subnet-81efbbd9",
+                        "SubnetId": "subnet-22222222",
                         "LoadBalancerAddresses": []
                     }
                 ],
                 "SecurityGroups": [
-                    "sg-0a0af06a28acb36eb"
+                    "sg-xx1xx1xx1xx1xx1xx1x"
                 ],
                 "IpAddressType": "ipv4"
             }]}
 
         parse_albs = self.parse_elbs.parse_albs(elb_response)
 
-        output = [{"name": "elb-lab", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                             "858918832707:loadbalancer/app/elb-lab/3d427508418606ed"}]
+        output = [{"name": "elb-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:"
+                             "111111111111:loadbalancer/app/elb-test/bbbbbbbbbbbbbbbb"}]
 
         self.assertEqual(parse_albs, output)
 
@@ -166,14 +166,14 @@ class TestParseElbs(unittest.TestCase):
         elb_response = {"LoadBalancers": [
             {
                 "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                                   "858918832707:loadbalancer/net/nlb-elb-easy-test/7a79cd99dbd10456",
-                "DNSName": "nlb-elb-easy-test-7a79cd99dbd10456.elb.ap-southeast-"
+                                   "111111111111:loadbalancer/net/nlb-elb-test/11111111111111111111",
+                "DNSName": "nlb-elb-test-11111111111111111111.elb.ap-southeast-"
                            "2.amazonaws.com",
-                "CanonicalHostedZoneId": "ZCT6FZBF4DROD",
+                "CanonicalHostedZoneId": "ZZZZZZZZZZZZZ",
                 "CreatedTime": "2022-05-31T22:35:45.032000+00:00",
-                "LoadBalancerName": "nlb-elb-easy-test",
+                "LoadBalancerName": "nlb-elb-test",
                 "Scheme": "internet-facing",
-                "VpcId": "vpc-9e6a97f8",
+                "VpcId": "vpc-99999999",
                 "State": {
                     "Code": "active"
                 },
@@ -181,12 +181,12 @@ class TestParseElbs(unittest.TestCase):
                 "AvailabilityZones": [
                     {
                         "ZoneName": "ap-southeast-2b",
-                        "SubnetId": "subnet-29c51361",
+                        "SubnetId": "subnet-11111111",
                         "LoadBalancerAddresses": []
                     },
                     {
                         "ZoneName": "ap-southeast-2c",
-                        "SubnetId": "subnet-81efbbd9",
+                        "SubnetId": "subnet-22222222",
                         "LoadBalancerAddresses": []
                     }
                 ],
@@ -194,13 +194,13 @@ class TestParseElbs(unittest.TestCase):
             },
             {
                 "LoadBalancerArn": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                                   "858918832707:loadbalancer/app/elb-lab/3d427508418606ed",
-                "DNSName": "elb-lab-308521398.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneId": "Z1GM3OXH4ZPM65",
+                                   "111111111111:loadbalancer/app/elb-test/bbbbbbbbbbbbbbbb",
+                "DNSName": "elb-test-999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneId": "CCCCCCCCCCCCCC",
                 "CreatedTime": "2021-09-22T04:51:31.830000+00:00",
-                "LoadBalancerName": "elb-lab",
+                "LoadBalancerName": "elb-test",
                 "Scheme": "internet-facing",
-                "VpcId": "vpc-9e6a97f8",
+                "VpcId": "vpc-99999999",
                 "State": {
                     "Code": "active"
                 },
@@ -208,25 +208,25 @@ class TestParseElbs(unittest.TestCase):
                 "AvailabilityZones": [
                     {
                         "ZoneName": "ap-southeast-2b",
-                        "SubnetId": "subnet-29c51361",
+                        "SubnetId": "subnet-11111111",
                         "LoadBalancerAddresses": []
                     },
                     {
                         "ZoneName": "ap-southeast-2c",
-                        "SubnetId": "subnet-81efbbd9",
+                        "SubnetId": "subnet-22222222",
                         "LoadBalancerAddresses": []
                     }
                 ],
                 "SecurityGroups": [
-                    "sg-0a0af06a28acb36eb"
+                    "sg-xx1xx1xx1xx1xx1xx1x"
                 ],
                 "IpAddressType": "ipv4"
             }]}
 
         parse_albs = self.parse_elbs.parse_albs(elb_response)
 
-        output = [{"name": "elb-lab", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:"
-                             "858918832707:loadbalancer/app/elb-lab/3d427508418606ed"}]
+        output = [{"name": "elb-test", "value": "arn:aws:elasticloadbalancing:ap-southeast-2:"
+                             "111111111111:loadbalancer/app/elb-test/bbbbbbbbbbbbbbbb"}]
 
         self.assertEqual(parse_albs, output)
 
@@ -239,10 +239,10 @@ class TestParseElbs(unittest.TestCase):
     def test_parse_clbs_one(self):
         elb_response = elb_response = {"LoadBalancerDescriptions": [
             {
-                "LoadBalancerName": "test-classic-lb",
-                "DNSName": "test-classic-lb-2007746508.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneName": "test-classic-lb-2007746508.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneNameID": "Z1GM3OXH4ZPM65",
+                "LoadBalancerName": "test-clb",
+                "DNSName": "test-clb-9999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneName": "test-clb-9999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneNameID": "CCCCCCCCCCCCCC",
                 "ListenerDescriptions": [
                     {
                         "Listener": {
@@ -264,9 +264,9 @@ class TestParseElbs(unittest.TestCase):
                     "ap-southeast-2c"
                 ],
                 "Subnets": [
-                    "subnet-81efbbd9"
+                    "subnet-22222222"
                 ],
-                "VPCId": "vpc-9e6a97f8",
+                "VPCId": "vpc-99999999",
                 "Instances": [],
                 "HealthCheck": {
                     "Target": "TCP:80",
@@ -276,11 +276,11 @@ class TestParseElbs(unittest.TestCase):
                     "HealthyThreshold": 10
                 },
                 "SourceSecurityGroup": {
-                    "OwnerAlias": "858918832707",
+                    "OwnerAlias": "111111111111",
                     "GroupName": "default"
                 },
                 "SecurityGroups": [
-                    "sg-0839aa48"
+                    "sg-0000aaaa"
                 ],
                 "CreatedTime": "2022-07-10T03:55:56.790000+00:00",
                 "Scheme": "internet-facing"
@@ -288,17 +288,17 @@ class TestParseElbs(unittest.TestCase):
 
         parse_clbs = self.parse_elbs.parse_clbs(elb_response)
 
-        output = [{"name": "test-classic-lb", "value": "test-classic-lb"}]
+        output = [{"name": "test-clb", "value": "test-clb"}]
 
         self.assertEqual(parse_clbs, output)
 
     def test_parse_clbs_multiple(self):
         elb_response = {"LoadBalancerDescriptions": [
             {
-                "LoadBalancerName": "test-classic-lb",
-                "DNSName": "test-classic-lb-2007746508.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneName": "test-classic-lb-2007746508.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneNameID": "Z1GM3OXH4ZPM65",
+                "LoadBalancerName": "test-clb",
+                "DNSName": "test-clb-9999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneName": "test-clb-9999999999.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneNameID": "CCCCCCCCCCCCCC",
                 "ListenerDescriptions": [
                     {
                         "Listener": {
@@ -320,9 +320,9 @@ class TestParseElbs(unittest.TestCase):
                     "ap-southeast-2c"
                 ],
                 "Subnets": [
-                    "subnet-81efbbd9"
+                    "subnet-22222222"
                 ],
-                "VPCId": "vpc-9e6a97f8",
+                "VPCId": "vpc-99999999",
                 "Instances": [],
                 "HealthCheck": {
                     "Target": "TCP:80",
@@ -332,20 +332,20 @@ class TestParseElbs(unittest.TestCase):
                     "HealthyThreshold": 10
                 },
                 "SourceSecurityGroup": {
-                    "OwnerAlias": "858918832707",
+                    "OwnerAlias": "111111111111",
                     "GroupName": "default"
                 },
                 "SecurityGroups": [
-                    "sg-0839aa48"
+                    "sg-0000aaaa"
                 ],
                 "CreatedTime": "2022-07-10T03:55:56.790000+00:00",
                 "Scheme": "internet-facing"
             },
             {
-                "LoadBalancerName": "test-classic-lb2",
-                "DNSName": "test-classic-lb2-1091373944.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneName": "test-classic-lb2-1091373944.ap-southeast-2.elb.amazonaws.com",
-                "CanonicalHostedZoneNameID": "Z1GM3OXH4ZPM65",
+                "LoadBalancerName": "test-clb-2",
+                "DNSName": "test-clb-2-0000000000.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneName": "test-clb-2-0000000000.ap-southeast-2.elb.amazonaws.com",
+                "CanonicalHostedZoneNameID": "CCCCCCCCCCCCCC",
                 "ListenerDescriptions": [
                     {
                         "Listener": {
@@ -367,9 +367,9 @@ class TestParseElbs(unittest.TestCase):
                     "ap-southeast-2c"
                 ],
                 "Subnets": [
-                    "subnet-81efbbd9"
+                    "subnet-22222222"
                 ],
-                "VPCId": "vpc-9e6a97f8",
+                "VPCId": "vpc-99999999",
                 "Instances": [],
                 "HealthCheck": {
                     "Target": "TCP:80",
@@ -379,11 +379,11 @@ class TestParseElbs(unittest.TestCase):
                     "HealthyThreshold": 10
                 },
                 "SourceSecurityGroup": {
-                    "OwnerAlias": "858918832707",
+                    "OwnerAlias": "111111111111",
                     "GroupName": "default"
                 },
                 "SecurityGroups": [
-                    "sg-0839aa48"
+                    "sg-0000aaaa"
                 ],
                 "CreatedTime": "2022-07-10T05:10:21.310000+00:00",
                 "Scheme": "internet-facing"
@@ -391,7 +391,7 @@ class TestParseElbs(unittest.TestCase):
 
         parse_clbs = self.parse_elbs.parse_clbs(elb_response)
 
-        output = [{"name": "test-classic-lb", "value": "test-classic-lb"}, {"name": "test-classic-lb2", "value": "test-classic-lb2"}]
+        output = [{"name": "test-clb", "value": "test-clb"}, {"name": "test-clb-2", "value": "test-clb-2"}]
 
         self.assertEqual(parse_clbs, output)
 
