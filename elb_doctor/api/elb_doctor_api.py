@@ -74,15 +74,6 @@ class ElbDoctorApi:
         result = ParseElbs.parse_elbv2(self, all_elbv2, answers)
 
         return result
-
-
-    # def retrieve_clb_tg(self) -> Dict:
-    #     """method to retrieve all classic load balancer target groups"""
-    #     all_clbs = GetElbs().get_elb()
-    #     parse_clb = ParseElbs.parse_clbs
-    #     result = parse_clb(self, all_clbs)
-
-    #     return result
       
     def retrieve_target_groups(self, answers) -> List[Dict]:
         """method to retrieve all target groups into a list of choices"""
