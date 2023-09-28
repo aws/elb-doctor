@@ -2,7 +2,7 @@
 
 Sometimes troubleshooting AWS ELB can be very difficult and intimidating due to the complexity of the virtual cloud network and the various ELB types/features. Navigating in the multi-layered AWS console to look for clues is not an easy task either and could often be time-consuming. This tool provides a no-brainer CLI wizard to help you check ELB basics, display target group health status, and potentially identify the root cause.
 
-<p align="center"><img src="demo/elbdoc-demo.gif" alt="animated" /></p>
+<p align="center"><img src="elbdoc-demo.gif" alt="animated" /></p>
 
 ## Installation
 ELB Doctor has not been published to PyPI yet, though we do have a plan in the near future.
